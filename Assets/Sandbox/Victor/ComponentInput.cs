@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Sandbox.Victor
@@ -9,20 +8,19 @@ namespace Sandbox.Victor
 
         public delegate void VectorEvent( Vector2 vector );
 
-        public VectorEvent MoveEvent;
+        public VectorEvent InputEventMove;
+        public VectorEvent InputEventLook;
 
-        // private Vector2 _moveInput;
-        
         private void Start()
         {
             _userActions = new UserActions();
             _userActions.Player.Enable();
-            // _moveInput = default;
         }
 
         private void Update()
         {
-            MoveEvent?.Invoke(_userActions.Player.Move.ReadValue<Vector2>());
+            InputEventMove?.Invoke(_userActions.Player.Move.ReadValue<Vector2>());
+            InputEventLook?.Invoke(_userActions.Player.Look.ReadValue<Vector2>());
         }
 
         private void OnDestroy()
