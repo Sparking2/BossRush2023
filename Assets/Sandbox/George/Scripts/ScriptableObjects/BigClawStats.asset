@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ccef70185c9c244b6abf31c4a5eb91, type: 3}
+  m_Name: BigClawStats
+  m_EditorClassIdentifier: 
+  maxHealth: 150
+  movementSpeed: 6
+  idleTime: 15
+  minWanderRadius: 1
+  maxWanderRadius: 2
+  minWaitBeforeWander: 0.5
+  maxWaitBeforeWander: 1.25
+  chaseTime: 1
+  attackTriggerRadius: 1
