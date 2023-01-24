@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Sandbox.Victor
 {
     public class ComponentInput : MonoBehaviour
     {
-        private UserActions _userActions;
-
         public delegate void VectorEvent( Vector2 vector );
+
+        public delegate void BoolEvent( float isTriggered );
+
+        private UserActions _userActions;
 
         public VectorEvent InputEventMove;
         public VectorEvent InputEventLook;
+        public BoolEvent InputEventFire;
 
         private void Start()
         {
@@ -21,6 +25,7 @@ namespace Sandbox.Victor
         {
             InputEventMove?.Invoke(_userActions.Player.Move.ReadValue<Vector2>());
             InputEventLook?.Invoke(_userActions.Player.Look.ReadValue<Vector2>());
+            InputEventFire?.Invoke(_userActions.Player.Fire.ReadValue<float>());
         }
 
         private void OnDestroy()

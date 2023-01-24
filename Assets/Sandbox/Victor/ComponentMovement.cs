@@ -36,10 +36,8 @@ namespace Sandbox.Victor
         // MoveDirection X is bind to A,D
         private void HandleMove( Vector2 moveDirection )
         {
-            if ( moveDirection.Equals(Vector2.zero) ) return;
-            _right = _playerTransform.right;
             _forward = _playerTransform.forward;
-
+            _right = _playerTransform.right;
             _currentMovement = _forward * moveDirection.y + _right * moveDirection.x;
             _characterController.Move(_currentMovement * ( speed * Time.deltaTime ));
         }
