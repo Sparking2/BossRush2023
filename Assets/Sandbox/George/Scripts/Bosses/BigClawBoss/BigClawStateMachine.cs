@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class BigClawStateMachine : BossStateMachine
 {
+
+    public void OnAttackFinished()
+    {
+        ChangeState(idleState);
+    }
+
     public override void InitializeStates()
     {
         idleState = new BigClawIdleState();
         chaseState = new BigClawChaseState();
-        attackState = new BigClawAttackState();
+        meleeAttackState = new BigClawMeleeAttackState();
+        rangedAttackState = new BigClawRangedAttackState();
     }
 }

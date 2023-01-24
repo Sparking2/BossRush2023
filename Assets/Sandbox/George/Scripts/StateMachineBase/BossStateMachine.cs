@@ -11,7 +11,8 @@ public class BossStateMachine : MonoBehaviour
     public BossIdleState idleState;
     public BossChaseState chaseState;
     public BossChannelState channelState;
-    public BossAttackState attackState;
+    public BossAttackState meleeAttackState;
+    public BossAttackState rangedAttackState;
 
     private BaseState currentState;
 
@@ -21,17 +22,24 @@ public class BossStateMachine : MonoBehaviour
     public Transform playerTransform;
 
     public float attackRange;
-
+    [HideInInspector] public Animator animator;
+    [SerializeField] private Transform debugPosition;
     private void Awake()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        //if (!bossStats) return;
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(transform.position, bossStats.minWanderRadius);
+        //Gizmos.DrawWireSphere(transform.position, bossStats.maxWanderRadius);
     }
 
     private void Start()
@@ -53,7 +61,7 @@ public class BossStateMachine : MonoBehaviour
         idleState = new BossIdleState();
         chaseState = new BossChaseState();
         channelState = new BossChannelState();
-        attackState = new BossAttackState();
+        meleeAttackState = new BossAttackState();
     }
 
     private void Update()
@@ -65,20 +73,25 @@ public class BossStateMachine : MonoBehaviour
     {
         currentState.OnStateExit(this);
         currentState = _nextState;
-
         currentState.OnStateEnter(this);
     }
 
     public Vector3 GetWanderPoint()
     {
-
-        Vector3 newPoint = WaypointManager.Instance.GetWaypoint();
-       // newPoint += transform.position;
-       //float WaypointRadius = WaypointManager.Instance.
+        float wanderRadius = bossStats.GetWanderRadius();
+        Vector3 waypointPosition = WaypointManager.Instance.GetWaypoint();
+        Vector3 randomPosition = Random.insideUnitSphere * wanderRadius;
+        randomPosition += waypointPosition;
+        //randomPosition *= 1.5f;
         NavMeshHit hit;
-        NavMesh.SamplePosition(newPoint, out hit, 1.5f, 1);
-      //  NavMesh.CalculatePath(transform.position,hit,1);
+        NavMesh.SamplePosition(randomPosition, out hit, wanderRadius, 1);
+        debugPosition.position = hit.position;
         return hit.position;
+
+        //Vector3 newPoint = WaypointManager.Instance.GetWaypoint();
+        //NavMeshHit hit;
+        //NavMesh.SamplePosition(newPoint, out hit, 1.5f, 1);
+        //return hit.position;
     }
 
     public enum BossState { idle,chasing,channeling,attacking,dead }

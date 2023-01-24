@@ -6,6 +6,7 @@ public class BossIdleState : BaseState
 {
     public float waitCounter;
     public float idleCounter;
+    public Vector3 wanderDestination;
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
         idleCounter = _stateMachine.bossStats.idleTime;

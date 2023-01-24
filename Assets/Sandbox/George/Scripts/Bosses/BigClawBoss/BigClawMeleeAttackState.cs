@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigClawAttackState : BossAttackState
+public class BigClawMeleeAttackState : BossAttackState
 {
     private float timer;
     public override void OnStateEnter(BossStateMachine _stateMachine)
@@ -11,7 +11,7 @@ public class BigClawAttackState : BossAttackState
         _stateMachine.agent.isStopped = true;
         timer = 2.0f;
         base.OnStateEnter(_stateMachine);
-     }
+    }
 
     public override void OnStateExit(BossStateMachine _stateMachine)
     {

@@ -19,6 +19,7 @@ public class BossStatsScriptables : ScriptableObject
 
     [Header("Chase state parameters: "), Space(10)]
     public float chaseTime;
+    public float chaseSpeed;
     public float attackTriggerRadius;
 
     public float GetWanderRadius()
