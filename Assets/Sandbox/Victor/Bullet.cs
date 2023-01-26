@@ -36,7 +36,11 @@ namespace Sandbox.Victor
         private void OnTriggerEnter( Collider other )
         {
             Debug.Log(other.name);
-            Reset();
+            if ( other.TryGetComponent(out HealthComponent healthComponent) )
+            {
+                Reset();
+                // TODO: do damage...                
+            }
         }
 
         public override void Fire()
