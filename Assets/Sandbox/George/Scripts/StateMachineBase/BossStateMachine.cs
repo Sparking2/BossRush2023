@@ -13,6 +13,10 @@ public class BossStateMachine : MonoBehaviour
     public BossChannelState channelState;
     public BossAttackState meleeAttackState;
     public BossAttackState rangedAttackState;
+    public BossAttackState tackleState;
+    public BossAttackState chargedAttackState;
+
+    public BossAttackState[] attackStates;
 
     private BaseState currentState;
 
@@ -24,11 +28,13 @@ public class BossStateMachine : MonoBehaviour
     public float attackRange;
     [HideInInspector] public Animator animator;
     [SerializeField] private Transform debugPosition;
+    [HideInInspector] public BossBase bossBase;
     private void Awake()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        bossBase = GetComponent<BossBase>();
     }
 
     private void OnDrawGizmos()
@@ -53,7 +59,7 @@ public class BossStateMachine : MonoBehaviour
 
     private void InitializeStats()
     {
-        agent.speed = bossStats.movementSpeed;
+        agent.speed = bossStats.idleMovementSpeed;
     }
 
     public virtual void InitializeStates() // Base for the state machine, each boss will have different conditions to trigger each state.

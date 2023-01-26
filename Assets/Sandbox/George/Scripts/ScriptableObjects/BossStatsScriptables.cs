@@ -7,8 +7,7 @@ public class BossStatsScriptables : ScriptableObject
 {
     [Header("General Stats"),Space(10)]
     public int maxHealth;
-    public float movementSpeed;
-
+    public float idleMovementSpeed;
     [Header("Idle state parameters: "),Space(10)]
     public float idleTime;
     public float minWanderRadius;
@@ -17,9 +16,12 @@ public class BossStatsScriptables : ScriptableObject
     public float minWaitBeforeWander;
     public float maxWaitBeforeWander;
 
+    public float berseckerWait;
+
     [Header("Chase state parameters: "), Space(10)]
     public float chaseTime;
     public float chaseSpeed;
+    public float berseckerSpeed;
     public float attackTriggerRadius;
 
     public float GetWanderRadius()
@@ -27,8 +29,9 @@ public class BossStatsScriptables : ScriptableObject
         return Random.Range(minWanderRadius, maxWanderRadius);
     }
 
-    public float GetWaitBeforeWander()
+    public float GetWaitBeforeWander(bool _bersecker)
     {
-        return Random.Range(minWaitBeforeWander, maxWaitBeforeWander);
+
+        return _bersecker?berseckerWait: Random.Range(minWaitBeforeWander, maxWaitBeforeWander);
     }
 }

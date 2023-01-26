@@ -9,9 +9,9 @@ public class BossIdleState : BaseState
     public Vector3 wanderDestination;
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
-        idleCounter = _stateMachine.bossStats.idleTime;
+        idleCounter = _stateMachine.bossBase.isBerserker? _stateMachine.bossStats.berseckerWait: _stateMachine.bossStats.idleTime;
         _stateMachine.bossState = BossStateMachine.BossState.idle;
-        waitCounter = _stateMachine.bossStats.GetWaitBeforeWander();
+        waitCounter = _stateMachine.bossStats.GetWaitBeforeWander(_stateMachine.bossBase.isBerserker);
     }
 
     public override void OnStateExit(BossStateMachine _stateMachine)

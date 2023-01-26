@@ -6,8 +6,10 @@ public class BigClawRangedAttackState : BossAttackState
 {
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
+        _stateMachine.agent.SetDestination(_stateMachine.transform.position);
         _stateMachine.animator.SetTrigger("rangedAtk");
         _stateMachine.agent.isStopped = true;
+        _stateMachine.bossBase.LookAtPlayer();
 
         base.OnStateEnter(_stateMachine);
     }

@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: BigClawStats
   m_EditorClassIdentifier: 
   maxHealth: 150
-  movementSpeed: 7
+  idleMovementSpeed: 15
   idleTime: 5
   minWanderRadius: 2
   maxWanderRadius: 5
   minWaitBeforeWander: 0.5
   maxWaitBeforeWander: 1
+  berseckerWait: 2.5
   chaseTime: 1
   chaseSpeed: 25
+  berseckerSpeed: 45
   attackTriggerRadius: 1

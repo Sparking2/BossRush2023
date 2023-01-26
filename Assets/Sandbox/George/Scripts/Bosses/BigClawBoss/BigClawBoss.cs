@@ -5,16 +5,17 @@ using UnityEngine;
 public class BigClawBoss : BossBase
 {
     [SerializeField] private GameObject projectile;
-    public void LookAtPlayer()
-    {
-        Vector3 target = playerPosition.position;
-        target.y = 0.0f;
-        transform.LookAt(target);
-    }
-
+    [SerializeField] private Transform shootpoint;
+    [SerializeField] private BigClawFeet bigBall;
     public void ShootProjectile(int index)
     {
-        
+        Instantiate(projectile, shootpoint.position, shootpoint.rotation);
+    }
+
+    public override void PerformSpecialAttack()
+    {
+        bigBall.gameObject.SetActive(true);
+        bigBall.OnLaunch(transform.forward);
     }
 
 }

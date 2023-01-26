@@ -11,7 +11,7 @@ public class BigClawIdleState : BossIdleState
         wanderDestination = Random.insideUnitSphere * _stateMachine.bossStats.GetWanderRadius();
         wanderDestination += _stateMachine.transform.position;
         _stateMachine.agent.SetDestination(wanderDestination);
-        _stateMachine.agent.speed = _stateMachine.bossStats.movementSpeed;
+        _stateMachine.agent.speed = _stateMachine.bossStats.idleMovementSpeed;
         _stateMachine.animator.SetBool("isMoving", true);
     }
 
@@ -30,7 +30,7 @@ public class BigClawIdleState : BossIdleState
             else
             {
                 _stateMachine.animator.SetBool("isMoving", true);
-                waitCounter = _stateMachine.bossStats.GetWaitBeforeWander();
+                waitCounter = _stateMachine.bossStats.GetWaitBeforeWander(_stateMachine.bossBase.isBerserker);
                 wanderDestination = _stateMachine.GetWanderPoint();
                 _stateMachine.agent.SetDestination(wanderDestination);
             }
@@ -48,18 +48,24 @@ public class BigClawIdleState : BossIdleState
     public override void OnIdleFinished(BossStateMachine _stateMachine)
     {
         int attackIndex = Random.Range(0, 3);
-        _stateMachine.ChangeState(_stateMachine.rangedAttackState);
-        //switch (attackIndex)
-        //{
-        //    case 0: // Chase attack
-        //        _stateMachine.ChangeState(_stateMachine.chaseState);
-        //        break;
-        //    case 1: // Range Attack
-        //        _stateMachine.ChangeState(_stateMachine.rangedAttackState);
-        //        break;
-        //    case 2: // Tackle Attack
-        //        break;
-        //}
+       // attackIndex = 1;
+
+        _stateMachine.agent.isStopped = true;
+        _stateMachine.agent.ResetPath();
+        _stateMachine.animator.SetBool("isMoving", false);
+        switch (attackIndex)
+        {
+            case 0: // Chase attack
+                _stateMachine.ChangeState(_stateMachine.chaseState);
+                break;
+            case 1: // Range Attack
+                // TODO BERSECKER RANGED ATTACK
+                _stateMachine.ChangeState(_stateMachine.bossBase.isBerserker ? _stateMachine.chargedAttackState : _stateMachine.rangedAttackState);
+                break;
+            case 2:
+                _stateMachine.ChangeState(_stateMachine.tackleState);
+                break;
+        }
 
     }
 }

@@ -9,6 +9,7 @@ public abstract class BossBase : MonoBehaviour
     public BossStatsScriptables statsScriptables;
     [HideInInspector] public ComponentHealth componentHealth;
 
+    public bool isBerserker = false;
     [HideInInspector] public Transform playerPosition;
     private void Awake()
     {
@@ -21,5 +22,17 @@ public abstract class BossBase : MonoBehaviour
     {
         if (!statsScriptables) Debug.LogWarning("No stats scriptable found on the entity");
         if (componentHealth) componentHealth.SetHealth(statsScriptables.maxHealth);
+    }
+
+    public void LookAtPlayer()
+    {
+        Vector3 target = playerPosition.position;
+        target.y = 0.0f;
+        transform.LookAt(target);
+    }
+
+    public virtual void PerformSpecialAttack()
+    {
+
     }
 }
