@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 1219755265388118740}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
   fireCooldown: 0.2
   burstShotSpawnCooldown: 0.1
   waveShotCooldownMultiplier: 3
-  currentFireMode: 2
+  currentFireMode: 0
 --- !u!1 &5547232052242065674
 GameObject:
   m_ObjectHideFlags: 0

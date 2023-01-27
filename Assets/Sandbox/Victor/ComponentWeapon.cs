@@ -141,6 +141,11 @@ namespace Sandbox.Victor
             return true;
         }
 
+        public void ChangeFireMode( FireMode targetMode )
+        {
+            currentFireMode = targetMode;
+        }
+        
         private IEnumerator FireBurst()
         {
             for ( var i = 0; i < 3; i++ )
