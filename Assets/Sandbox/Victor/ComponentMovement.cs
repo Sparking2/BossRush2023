@@ -24,12 +24,12 @@ namespace Sandbox.Victor
                 throw new Exception($"Can't find {_characterController.GetType().Name} in player");
 
             _playerTransform = transform;
-            _input.MoveEvent += HandleMove;
+            _input.InputEventMove += HandleMove;
         }
 
         private void OnDestroy()
         {
-            _input.MoveEvent -= HandleMove;
+            _input.InputEventMove -= HandleMove;
         }
 
         // MoveDirection Y is bind to W,S and 

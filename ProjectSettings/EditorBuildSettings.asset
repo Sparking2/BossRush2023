@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Sandbox/Victor/dev.unity
+    guid: 44bd7756f82b5454fbfca16f1926273a
   m_configObjects: {}
