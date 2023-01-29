@@ -24,7 +24,7 @@ public partial class @UserActions : IInputActionCollection2, IDisposable
     ""name"": ""UserActions"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""ComponentPlayer"",
             ""id"": ""c72f0a44-2e4c-49fd-aca0-0d05e082c114"",
             ""actions"": [
                 {
@@ -138,8 +138,8 @@ public partial class @UserActions : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        // ComponentPlayer
+        m_Player = asset.FindActionMap("ComponentPlayer", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
@@ -199,7 +199,7 @@ public partial class @UserActions : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Player
+    // ComponentPlayer
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
