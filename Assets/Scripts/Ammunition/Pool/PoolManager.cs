@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Sandbox.Victor
+namespace Ammunition.Pool
 {
     public class PoolManager : MonoBehaviour
     {
@@ -32,7 +31,7 @@ namespace Sandbox.Victor
 
         private void Start()
         {
-            _playerTransform = FindObjectOfType<Player>().transform;
+            _playerTransform = FindObjectOfType<Player.ComponentPlayer>().transform;
         }
 
         private Projectile CreatePooledItem()

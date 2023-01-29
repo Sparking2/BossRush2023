@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Sandbox.Victor
+namespace Player
 {
     public class ComponentInput : MonoBehaviour
     {

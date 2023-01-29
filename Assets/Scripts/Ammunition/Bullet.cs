@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
+using Sandbox.Victor;
 using UnityEngine;
 
-namespace Sandbox.Victor
+namespace Ammunition
 {
     public class Bullet : Projectile
     {

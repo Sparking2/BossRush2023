@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Sandbox.Victor
+namespace Player
 {
     public class ComponentMovement : MonoBehaviour
     {

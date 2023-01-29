@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Sandbox.Victor
+namespace Player
 {
     public class FireModeModifier : MonoBehaviour
     {
@@ -12,7 +11,7 @@ namespace Sandbox.Victor
 
         private void OnTriggerEnter( Collider other )
         {
-            if ( !other.tag.Equals("Player") ) return;
+            if ( !other.tag.Equals("ComponentPlayer") ) return;
             if ( !other.TryGetComponent(out ComponentWeapon weapon) ) return;
 
             weapon.ChangeFireMode(newFireMode);

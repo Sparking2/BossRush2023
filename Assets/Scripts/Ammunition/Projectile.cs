@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Sandbox.Victor
+namespace Ammunition
 {
     public abstract class Projectile : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Sandbox.Victor
+namespace Ammunition.Pool
 {
     public class ReturnProjectileToPool : MonoBehaviour
     {

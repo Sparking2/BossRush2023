@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using Ammunition;
+using Ammunition.Pool;
 using UnityEngine;
 
-namespace Sandbox.Victor
+namespace Player
 {
     public class ComponentWeapon : MonoBehaviour
     {
