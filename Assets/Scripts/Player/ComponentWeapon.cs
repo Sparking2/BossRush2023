@@ -8,27 +8,23 @@ namespace Player
 {
     public class ComponentWeapon : MonoBehaviour
     {
-        private ComponentInput _input;
-
         [SerializeField]
         private Transform weaponBarrelEnd;
-
-        private Transform _mainCamera;
-
         [SerializeField]
         private float fireCooldown = 1.0f;
         [SerializeField]
         private float burstShotSpawnCooldown = 0.1f;
         [SerializeField]
         private float waveShotCooldownMultiplier = 2.0f;
-        
-        private float _currentCooldown = 0.0f;
-
-        private PoolManager _poolManager;
-
         [SerializeField]
         private FireMode currentFireMode = FireMode.Single;
+
+        private ComponentInput _input;
+        private PoolManager _poolManager;
+        private ComponentTarget _target;
         private bool _wasFiring;
+        private float _currentCooldown = 0.0f;
+
 
         private void Start()
         {
@@ -37,14 +33,12 @@ namespace Player
 
             _input.InputEventFire += HandleFire;
 
-            if ( Camera.main != null )
-                _mainCamera = Camera.main.transform;
-            else
-                throw new Exception($"There is no main camera!!");
-
             _poolManager = FindObjectOfType<PoolManager>();
             if ( !_poolManager )
                 throw new Exception($"Can't find Pool!!!");
+
+            if ( !TryGetComponent(out _target) )
+                throw new Exception($"Can't find {_target.GetType().Name} in player");
         }
 
         private void Update()
@@ -90,8 +84,8 @@ namespace Player
             _wasFiring = true;
             _currentCooldown = 0;
             Projectile bullet = _poolManager.Pool.Get();
-            bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
-            bullet.Fire();
+            bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.identity);
+            bullet.Fire(CalculateBulletDirection());
         }
 
         private void HandleBurstShot( in bool isFiring )
@@ -107,14 +101,15 @@ namespace Player
             if ( !IsAllowedToShoot(isFiring) ) return;
             _wasFiring = true;
             _currentCooldown = -fireCooldown * waveShotCooldownMultiplier;
-            
+
             for ( var i = 0; i < 15; i++ )
             {
                 Projectile bullet = _poolManager.Pool.Get();
-                var randomOffset = new Vector3(UnityEngine.Random.Range(-10.0f,10.0f),UnityEngine.Random.Range(-10.0f,10.0f),0);
+                var randomOffset = new Vector3(UnityEngine.Random.Range(-10.0f, 10.0f),
+                    UnityEngine.Random.Range(-10.0f, 10.0f), 0);
                 Vector3 rotation = transform.rotation.eulerAngles + randomOffset;
                 bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.Euler(rotation));
-                bullet.Fire();
+                bullet.Fire(CalculateBulletDirection());
             }
         }
 
@@ -124,7 +119,7 @@ namespace Player
             _currentCooldown = 0;
             Projectile bullet = _poolManager.Pool.Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
-            bullet.Fire();
+            bullet.Fire(CalculateBulletDirection());
         }
 
         private bool IsAllowedToShoot( in bool isFiring )
@@ -146,6 +141,14 @@ namespace Player
         {
             currentFireMode = targetMode;
         }
+
+        private Vector3 CalculateBulletDirection()
+        {
+            Vector3 heading = _target.CurrentTarget - weaponBarrelEnd.position;
+            float distance = heading.magnitude;
+            Vector3 direction = heading / distance;
+            return direction;
+        }
         
         private IEnumerator FireBurst()
         {
@@ -153,7 +156,7 @@ namespace Player
             {
                 Projectile bullet = _poolManager.Pool.Get();
                 bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
-                bullet.Fire();
+                bullet.Fire(CalculateBulletDirection());
                 yield return new WaitForSeconds(burstShotSpawnCooldown);
             }
         }

@@ -11,7 +11,7 @@ namespace Player
 
         private void OnTriggerEnter( Collider other )
         {
-            if ( !other.tag.Equals("ComponentPlayer") ) return;
+            if ( !other.tag.Equals("Player") ) return;
             if ( !other.TryGetComponent(out ComponentWeapon weapon) ) return;
 
             weapon.ChangeFireMode(newFireMode);

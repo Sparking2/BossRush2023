@@ -51,6 +51,14 @@ namespace Ammunition
             _rigidbody.velocity = transform.forward * velocity;
         }
 
+        public override void Fire(Vector3 direction)
+        {
+            _trailRenderer.Clear();
+            _trailRenderer.emitting = true;
+            _trailRenderer.enabled = true;
+            _rigidbody.velocity = direction * velocity;
+        }
+        
         public override void OnImpact()
         {
         }
