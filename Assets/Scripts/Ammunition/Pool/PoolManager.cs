@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Ammunition.Pool
@@ -10,53 +12,71 @@ namespace Ammunition.Pool
         public int maxPoolSize = 100;
         private IObjectPool<Projectile> _pool;
 
-        [Header("Ammo Type"), SerializeField,]
-        private Bullet prefabBullet;
+        [SerializeField]
+        private PoolData[] projectileTypeArray;
+        private readonly Dictionary<ProjectileType, PoolData> _projectileLibrary =
+            new Dictionary<ProjectileType, PoolData>();
 
-        private Transform _playerTransform;
-        
-        public IObjectPool<Projectile> Pool
-        {
-            get
-            {
-                if ( _pool == null )
-                {
-                    _pool = new ObjectPool<Projectile>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool,
-                        OnDestroyPoolObject, collectionChecks, maxPoolSize);
-                }
-
-                return _pool;
-            }
-        }
+        private static PoolManager _instance;
 
         private void Start()
         {
-            _playerTransform = FindObjectOfType<Player.ComponentPlayer>().transform;
+            if ( _instance != null && _instance != this )
+                Destroy(gameObject);
+            else
+                _instance = this;
+
+            foreach ( PoolData poolData in projectileTypeArray )
+            {
+                if ( !_projectileLibrary.TryAdd(poolData.type, poolData) )
+                    throw new Exception("Can't add item to library");
+            }
+
+            GetPool(ProjectileType.Bullet).Get();
+            GetPool(ProjectileType.Boss).Get();
         }
 
-        private Projectile CreatePooledItem()
+        public static IObjectPool<Projectile> GetPool( ProjectileType type )
         {
-            GameObject go = Instantiate(prefabBullet, Vector3.zero, Quaternion.identity, transform).gameObject;
-            var bullet = go.GetComponent<Bullet>();
+            if ( !_instance._projectileLibrary.TryGetValue(type, out PoolData pool) )
+                throw new Exception("Can't get pool");
 
-            // This is used to return ParticleSystems to the pool when they have stopped.
-            var returnToPool = go.AddComponent<ReturnProjectileToPool>();
-            returnToPool.Pool = Pool;
+            if ( pool.Pool == null )
+            {
+                pool.Pool = new ObjectPool<Projectile>(
+                    () =>
+                    {
+                        Projectile prefab = pool.prefab;
+                        GameObject go = Instantiate(prefab, Vector3.zero, Quaternion.identity, _instance.transform)
+                            .gameObject;
+                        var bullet = go.GetComponent<Projectile>();
+                        // This is used to return Projectile to the pool when they have stopped.
+                        var returnToPool = go.AddComponent<ReturnProjectileToPool>();
+                        returnToPool.Pool = pool.Pool;
+                        return bullet;
+                    },
+                    _instance.OnTakeFromPool,
+                    _instance.OnReturnedToPool,
+                    _instance.OnDestroyPoolObject,
+                    _instance.collectionChecks,
+                    _instance.maxPoolSize
+                );
+                _instance._projectileLibrary[type] = pool;
+            }
 
-            return bullet;
+            return pool.Pool;
         }
-
+        
         // Called when an item is returned to the pool using Release
         private void OnReturnedToPool( Projectile projectile )
         {
-            projectile.transform.SetPositionAndRotation(Vector3.zero,Quaternion.Euler(Vector3.zero));
+            projectile.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(Vector3.zero));
             projectile.gameObject.SetActive(false);
         }
 
         // Called when an item is taken from the pool using Get
         private void OnTakeFromPool( Projectile bullet )
         {
-            // bullet.transform.position = _playerTransform.position;
             bullet.gameObject.SetActive(true);
         }
 

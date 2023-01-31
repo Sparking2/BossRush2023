@@ -3445,6 +3445,11 @@ MonoBehaviour:
   collectionChecks: 1
   maxPoolSize: 100
   prefabBullet: {fileID: 3602729561352583158, guid: c69d8e76028dd9a489e5b2b4c9902331, type: 3}
+  projectileTypeArray:
+  - type: 0
+    prefab: {fileID: 3602729561352583158, guid: 9cc0bed8e4d47484cbdab62122e2d977, type: 3}
+  - type: 1
+    prefab: {fileID: 3602729561352583158, guid: ec33a0a6761b6cd4dac9c5ed2cf8bba6, type: 3}
 --- !u!1 &1568152774
 GameObject:
   m_ObjectHideFlags: 0

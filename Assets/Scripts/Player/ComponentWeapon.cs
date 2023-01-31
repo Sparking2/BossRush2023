@@ -20,7 +20,6 @@ namespace Player
         private FireMode currentFireMode = FireMode.Single;
 
         private ComponentInput _input;
-        private PoolManager _poolManager;
         private ComponentTarget _target;
         private bool _wasFiring;
         private float _currentCooldown = 0.0f;
@@ -32,10 +31,6 @@ namespace Player
                 throw new Exception($"Can't find {_input.GetType().Name} in player");
 
             _input.InputEventFire += HandleFire;
-
-            _poolManager = FindObjectOfType<PoolManager>();
-            if ( !_poolManager )
-                throw new Exception($"Can't find Pool!!!");
 
             if ( !TryGetComponent(out _target) )
                 throw new Exception($"Can't find {_target.GetType().Name} in player");
@@ -83,7 +78,7 @@ namespace Player
 
             _wasFiring = true;
             _currentCooldown = 0;
-            Projectile bullet = _poolManager.Pool.Get();
+            Projectile bullet = PoolManager.GetPool(ProjectileType.Bullet).Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.identity);
             bullet.Fire(CalculateBulletDirection());
         }
@@ -104,7 +99,7 @@ namespace Player
 
             for ( var i = 0; i < 15; i++ )
             {
-                Projectile bullet = _poolManager.Pool.Get();
+                Projectile bullet = PoolManager.GetPool(ProjectileType.Bullet).Get();
                 var randomOffset = new Vector3(UnityEngine.Random.Range(-10.0f, 10.0f),
                     UnityEngine.Random.Range(-10.0f, 10.0f), 0);
                 Vector3 rotation = transform.rotation.eulerAngles + randomOffset;
@@ -117,7 +112,7 @@ namespace Player
         {
             if ( !isFiring ) return;
             _currentCooldown = 0;
-            Projectile bullet = _poolManager.Pool.Get();
+            Projectile bullet = PoolManager.GetPool(ProjectileType.Bullet).Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
             bullet.Fire(CalculateBulletDirection());
         }
@@ -154,7 +149,7 @@ namespace Player
         {
             for ( var i = 0; i < 3; i++ )
             {
-                Projectile bullet = _poolManager.Pool.Get();
+                Projectile bullet = PoolManager.GetPool(ProjectileType.Bullet).Get();
                 bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
                 bullet.Fire(CalculateBulletDirection());
                 yield return new WaitForSeconds(burstShotSpawnCooldown);
