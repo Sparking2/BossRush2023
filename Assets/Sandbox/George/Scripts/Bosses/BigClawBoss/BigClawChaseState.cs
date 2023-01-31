@@ -50,6 +50,6 @@ public class BigClawChaseState : BossChaseState
         _stateMachine.agent.acceleration = 750f;
         //_stateMachine.agent.ResetPath();
         //_stateMachine.agent.SetDestination(_stateMachine.transform.position);
-        _stateMachine.ChangeState(_stateMachine.meleeAttackState);
+        _stateMachine.ChangeState(_stateMachine.attackStates[0]);
     }
 }

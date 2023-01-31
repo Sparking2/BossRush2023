@@ -45,7 +45,7 @@ public class BigClawTackleState : BossAttackState
     {
         if (tackleChannel > 0f)
         {
-            Debug.Log("Channeling");
+
             //_stateMachine.agent.speed = 0.0f;
             _stateMachine.agent.isStopped = true;
             _stateMachine.bossBase.LookAtPlayer();
@@ -53,7 +53,7 @@ public class BigClawTackleState : BossAttackState
         }
         else
         {
-            Debug.Log("Moving towards the target position");
+  
             _stateMachine.agent.isStopped = false;
             _stateMachine.agent.speed = tackleSpeed;
 
@@ -63,7 +63,7 @@ public class BigClawTackleState : BossAttackState
 
             if (Vector3.Distance(_stateMachine.transform.position, target) <= 0.1f)
             {
-                Debug.Log("Reached the target position");
+
                 //_stateMachine.agent.ResetPath();
                 _stateMachine.agent.isStopped = true;
                 _stateMachine.agent.ResetPath();

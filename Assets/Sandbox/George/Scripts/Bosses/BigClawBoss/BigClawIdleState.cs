@@ -60,10 +60,10 @@ public class BigClawIdleState : BossIdleState
                 break;
             case 1: // Range Attack
                 // TODO BERSECKER RANGED ATTACK
-                _stateMachine.ChangeState(_stateMachine.bossBase.isBerserker ? _stateMachine.chargedAttackState : _stateMachine.rangedAttackState);
+                _stateMachine.ChangeState(_stateMachine.bossBase.isBerserker ? _stateMachine.attackStates[3] : _stateMachine.attackStates[1]);
                 break;
             case 2:
-                _stateMachine.ChangeState(_stateMachine.tackleState);
+                _stateMachine.ChangeState(_stateMachine.attackStates[2]);
                 break;
         }
 
