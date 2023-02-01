@@ -81,7 +81,16 @@ public class BossStateMachine : MonoBehaviour
 
     private void Update()
     {
-        if(currentState != null) currentState.OnStateUpdate(this);
+        if (currentState == null) return;
+        if (currentState.doOnFixed) return;
+        currentState.OnStateUpdate(this);
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentState == null) return;
+        if (!currentState.doOnFixed) return;
+        currentState.OnStateUpdate(this);
     }
 
     public void ChangeState(BaseState _nextState)
@@ -107,6 +116,13 @@ public class BossStateMachine : MonoBehaviour
         //NavMeshHit hit;
         //NavMesh.SamplePosition(newPoint, out hit, 1.5f, 1);
         //return hit.position;
+    }
+
+    public Vector3 GetTargetPoint(Vector3 _targetPosition)
+    {
+        NavMeshHit hit;
+        NavMesh.SamplePosition(_targetPosition, out hit, 3, 1);
+        return hit.position;
     }
 
     public enum BossState { idle,chasing,channeling,attacking,dead }

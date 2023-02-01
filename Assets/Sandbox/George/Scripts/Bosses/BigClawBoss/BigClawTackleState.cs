@@ -11,8 +11,11 @@ public class BigClawTackleState : BossAttackState
     private float tackleChannel;
     private float baseChannelTime = 2.0f;
     private int totalTackles = 3;
+    BigClawBoss clawBoss;
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
+        if (!clawBoss) clawBoss = _stateMachine.gameObject.GetComponent<BigClawBoss>();
+        doOnFixed = true;
        // _stateMachine.animator.SetBool("tackleAtk", true);
         _stateMachine.animator.SetTrigger("tackleStart");
 
@@ -47,35 +50,34 @@ public class BigClawTackleState : BossAttackState
         {
 
             //_stateMachine.agent.speed = 0.0f;
+            Debug.Log("Channeling");
             _stateMachine.agent.isStopped = true;
             _stateMachine.bossBase.LookAtPlayer();
             tackleChannel -= Time.deltaTime;
+            target = _stateMachine.GetTargetPoint(_stateMachine.playerTransform.position);
+            clawBoss.SetDangerLine();
         }
         else
         {
-  
+            Debug.Log("Tackling");
             _stateMachine.agent.isStopped = false;
-            _stateMachine.agent.speed = tackleSpeed;
-
-            if (target == Vector3.zero) target = _stateMachine.playerTransform.position;
-            //_stateMachine.agent.SetDestination((Vector3)target);
+            _stateMachine.agent.speed = tackleSpeed;  
             _stateMachine.agent.SetDestination(target);
 
-            if (Vector3.Distance(_stateMachine.transform.position, target) <= 0.1f)
+            if (Vector3.Distance(_stateMachine.transform.position,target) <= 0.5f)
             {
-
-                //_stateMachine.agent.ResetPath();
-                _stateMachine.agent.isStopped = true;
-                _stateMachine.agent.ResetPath();
-                target = Vector3.zero;
-
-                // _stateMachine.bossBase.LookAtPlayer();
-                tackleChannel = baseChannelTime;
-                totalTackles--;
+                Debug.Log("Reach the target");
                 if(totalTackles <= 0)
                 {
+                    Debug.Log("Finished the attack");
                     _stateMachine.ChangeState(_stateMachine.idleState);
                     _stateMachine.animator.SetTrigger("tackleEnd");
+                } else
+                {
+                    Debug.Log("Doing it again...");
+                    _stateMachine.agent.isStopped = true;
+                    tackleChannel = baseChannelTime;
+                    totalTackles--;
                 }
             }
 

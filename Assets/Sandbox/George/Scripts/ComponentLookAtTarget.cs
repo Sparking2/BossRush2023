@@ -6,19 +6,43 @@ public class ComponentLookAtTarget : MonoBehaviour
 {
     public bool canLookAtTarget = false;
     [SerializeField] private float lookSpeed;
-    public GameObject target;
+    public Vector3 tmpTarget;
 
-    public void SetTarget(GameObject _newTarget)
+
+    public bool lookAtPlayer = false;
+    public Transform playerTransform;
+    public void SetPlayerTransform(Transform _newTarget)
     {
-        target = _newTarget;
+        playerTransform = _newTarget;
+    }
+
+    public void SetTemporalTarget(Vector3 _tmp)
+    {
+        tmpTarget = _tmp;
+        lookAtPlayer = false;
+        Invoke("ReturnToLookPlayer", 1.25f);
+    }
+
+    private void ReturnToLookPlayer()
+    {
+        lookAtPlayer = true;
     }
 
     private void Update()
     {
         if (!canLookAtTarget) return;
-        if (!target) return;
-        var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
-        
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);
+        if (lookAtPlayer)
+        {
+            var lookPos = playerTransform.position - transform.position;
+            lookPos.y = 0;
+            var targetRotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);
+        } else
+        {
+            var lookPos = tmpTarget - transform.position;
+            lookPos.y = 0;
+            var targetRotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);
+        }
     }
 }

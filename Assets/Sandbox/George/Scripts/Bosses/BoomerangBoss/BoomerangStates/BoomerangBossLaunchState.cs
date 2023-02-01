@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class BoomerangBossLaunchState : BossAttackState
 {
+    private float waitTime;
+
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
+        waitTime = 1.0f;
         base.OnStateEnter(_stateMachine);
         _stateMachine.animator.SetTrigger("launch");
     }
@@ -17,6 +20,10 @@ public class BoomerangBossLaunchState : BossAttackState
 
     public override void OnStateUpdate(BossStateMachine _stateMachine)
     {
-        //throw new System.NotImplementedException();
+        if (waitTime > 0.0f) waitTime -= Time.deltaTime;
+        else
+        {
+            _stateMachine.ChangeState(_stateMachine.idleState);
+        }
     }
 }

@@ -5,9 +5,10 @@ using UnityEngine;
 public class BoomerangBossIdleState : BossIdleState
 {
     // Idle shoot
-
+    BoomerangBoss boomerangBoss;
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
+        if (!boomerangBoss) boomerangBoss = _stateMachine.gameObject.GetComponent<BoomerangBoss>();
         base.OnStateEnter(_stateMachine);
         //idleCounter = _stateMachine.bossBase.isBerserker ? _stateMachine.bossStats.bersekerWait : _stateMachine.bossStats.idleTime;
         //_stateMachine.bossState = BossStateMachine.BossState.idle;
@@ -15,6 +16,7 @@ public class BoomerangBossIdleState : BossIdleState
 
         wanderDestination = SetInitialWanderPoint(_stateMachine);
 
+        _stateMachine.agent.isStopped = false;
         _stateMachine.agent.SetDestination(wanderDestination);
         _stateMachine.agent.speed = _stateMachine.bossStats.idleMovementSpeed;
         _stateMachine.agent.acceleration = _stateMachine.agent.speed;
@@ -64,6 +66,15 @@ public class BoomerangBossIdleState : BossIdleState
 
     public override void OnIdleFinished(BossStateMachine _stateMachine)
     {
+        if (!boomerangBoss.hasBoomerang)
+        {
+            _stateMachine.agent.isStopped = false;
+            waitCounter = _stateMachine.bossStats.GetWaitBeforeWander(_stateMachine.bossBase.isBerserker);
+            wanderDestination = _stateMachine.GetWanderPoint();
+            _stateMachine.agent.SetDestination(wanderDestination);
+            idleCounter = _stateMachine.bossBase.isBerserker ? _stateMachine.bossStats.bersekerWait : _stateMachine.bossStats.idleTime;
+            return;
+        }
         _stateMachine.ChangeState(_stateMachine.attackStates[0]);
     }
 }

@@ -48,7 +48,7 @@ public class BigClawIdleState : BossIdleState
     public override void OnIdleFinished(BossStateMachine _stateMachine)
     {
         int attackIndex = Random.Range(0, 3);
-       // attackIndex = 1;
+        attackIndex = 2;
 
         _stateMachine.agent.isStopped = true;
         _stateMachine.agent.ResetPath();

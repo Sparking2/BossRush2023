@@ -13,10 +13,6 @@ public class BigClawStateMachine : BossStateMachine
     {
         idleState = new BigClawIdleState();
         chaseState = new BigClawChaseState();
-        //meleeAttackState = new BigClawMeleeAttackState();
-        //rangedAttackState = new BigClawRangedAttackState();
-        //tackleState = new BigClawTackleState();
-        //chargedAttackState = new BigClawChargedAttackState();
 
         attackStates = new BossAttackState[4];
         attackStates[0] = new BigClawMeleeAttackState();
