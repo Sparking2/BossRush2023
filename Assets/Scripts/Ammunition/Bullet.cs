@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Sandbox.Victor;
 using UnityEngine;
 
@@ -22,6 +24,8 @@ namespace Ammunition
                 throw new Exception("Can't find rigidbody");
             if(!TryGetComponent(out _trailRenderer))
                 throw new Exception("Can't find trailRenderer");
+            
+
         }
 
         private void Update()

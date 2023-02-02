@@ -1,9 +1,11 @@
-﻿namespace Ammunition.Pool
+﻿namespace Enums
 {
     public enum ProjectileType
     {
         Bullet,
-        Boss,
+        HighBounce,
+        Mine,
+        Boss1,
         Etc,
     }
 }

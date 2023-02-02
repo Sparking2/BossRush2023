@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Enums;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -31,9 +32,6 @@ namespace Ammunition.Pool
                 if ( !_projectileLibrary.TryAdd(poolData.type, poolData) )
                     throw new Exception("Can't add item to library");
             }
-
-            GetPool(ProjectileType.Bullet).Get();
-            GetPool(ProjectileType.Boss).Get();
         }
 
         public static IObjectPool<Projectile> GetPool( ProjectileType type )

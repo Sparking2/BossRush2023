@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using Enums;
+using Player;
+using UnityEngine;
 
-namespace Player
+namespace Weapon
 {
-    public class FireModeModifier : MonoBehaviour
+    public class ProjectileTypeModifier : MonoBehaviour
     {
         [SerializeField]
-        private FireMode newFireMode;
+        private ProjectileType newProjectileType;
         [SerializeField]
         private bool removeOnContact;
 
@@ -14,7 +16,7 @@ namespace Player
             if ( !other.tag.Equals("Player") ) return;
             if ( !other.TryGetComponent(out ComponentWeapon weapon) ) return;
 
-            weapon.ChangeFireMode(newFireMode);
+            weapon.ChangeAmmoType(newProjectileType);
 
             if ( removeOnContact )
                 Destroy(gameObject);
