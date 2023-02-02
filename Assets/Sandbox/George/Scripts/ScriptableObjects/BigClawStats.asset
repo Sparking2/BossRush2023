@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   idleMovementSpeed: 15
-  idleTime: 5
+  idleTime: 1
   minWanderRadius: 2
-  maxWanderRadius: 5
+  maxWanderRadius: 15
   minWaitBeforeWander: 0.5
   maxWaitBeforeWander: 1
-  berseckerWait: 2.5
+  bersekerWait: 0.5
   chaseTime: 1
   chaseSpeed: 25
   berseckerSpeed: 45

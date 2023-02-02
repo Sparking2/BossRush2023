@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-public class BoomerangBoss : BossBase
+
+public class BoomerBotBrain : EntityBrainBase
 {
     [SerializeField] private float minShootingCooldown;
     [SerializeField] private float maxShootingCooldown;
@@ -15,52 +15,79 @@ public class BoomerangBoss : BossBase
     public bool hasBoomerang;
 
     [SerializeField] private ComponentLookAtTarget componentLookAtTarget;
+    private float waitTime;
     private Vector3 launchPosition;
-    private void Start()
+    public override void OnAwake()
     {
-
-        foreach (ComponentBossShooters _component in componentBosses)
-        {
-            _component.SetMinMaxCooldowns(minShootingCooldown, maxShootingCooldown);
-            _component.SetProjectile(bossProjectilePrefab);
-            _component.SetCanShoot(true);
-        }
-        hasBoomerang = true;
-        boomerang.transform.position = boomerangPivot.transform.position;
-        //boomerang.SetBoomerangBoss(this);
-        boomerang.SetBersekerMode(isBerserker);
-        componentLookAtTarget.SetPlayerTransform(playerPosition);
+        
     }
 
-    public override void PerformSpecialAttack()
+    public override void OnStart()
     {
+        SetWeaponStats(minShootingCooldown, maxShootingCooldown, bossProjectilePrefab);
+        hasBoomerang = true;
+        boomerang.transform.position = boomerangPivot.transform.position;
+        boomerang.SetBoomerangBoss(this);
+        boomerang.SetBersekerMode(isBerseker);
+        componentLookAtTarget.SetPlayerTransform(playerTransform);
+        waitTime = bossStats.GetWaitBeforeWander(isBerseker);
+    }
 
+    private void SetWeaponStats(float min,float max,GameObject projectile)
+    {
+        foreach (ComponentBossShooters _component in componentBosses)
+        {
+            _component.SetMinMaxCooldowns(min, max);
+            _component.SetProjectile(projectile);
+            _component.SetCanShoot(true);
+        }
+    }
+
+    public override void OnUpdate()
+    {
+       if(agent.remainingDistance <= 0.3f)
+        {
+            if (waitTime > 0.0f) waitTime -= Time.deltaTime;
+            else
+            {
+                targetPoint = CustomTools.GetRandomPointOnMesh(15f, transform.position);
+                agent.SetDestination(targetPoint);
+                waitTime = bossStats.GetWaitBeforeWander(isBerseker);
+            }
+ 
+        }
+    }
+
+    public override void PerformAction()
+    {
+        state = EntityState.attacking;
+        animator.SetTrigger("launch");
+        canDoAction = false;
     }
 
     public void LaunchBoomerang()
     {
-
         hasBoomerang = false;
         visualBoomerang.SetActive(false);
         boomerang.SetBossPosition(boomerangPivot.transform);
         boomerang.OnBoomerangLaunch();
-        
+   
         switch (atk)
         {
             case 0:
-                boomerang.PerformInAndOutAttack(playerPosition.position,isBerserker);
+                boomerang.PerformInAndOutAttack(playerTransform.position, isBerseker);
                 break;
             case 1:
-                boomerang.PerformBulletVortexAttack(isBerserker);
+                boomerang.PerformBulletVortexAttack(isBerseker);
                 break;
             case 2:
-                boomerang.PerformExplosiveAttack(playerPosition);
+                boomerang.PerformExplosiveAttack(playerTransform);
                 break;
             case 3:
-                boomerang.PerformLaserAttack(launchPosition,isBerserker);
+                boomerang.PerformLaserAttack(launchPosition, isBerseker);
                 break;
             default:
-                boomerang.PerformInAndOutAttack(playerPosition.position,isBerserker);
+                boomerang.PerformInAndOutAttack(playerTransform.position, isBerseker);
                 break;
         }
     }
@@ -70,8 +97,8 @@ public class BoomerangBoss : BossBase
     private static Vector3 GetRandomLaunchPosition()
     {
         Vector3 launchPlace = Random.insideUnitSphere * 5.0f;
-        NavMeshHit hit;
-        NavMesh.SamplePosition(launchPlace, out hit, 5.0f, 1);
+        UnityEngine.AI.NavMeshHit hit;
+        UnityEngine.AI.NavMesh.SamplePosition(launchPlace, out hit, 5.0f, 1);
         Vector3 finalPosition = hit.position;
         finalPosition.y = 1.25f;
         return finalPosition;
@@ -80,7 +107,7 @@ public class BoomerangBoss : BossBase
     public void OnBoomerangLaunchStart()
     {
         atk = Random.Range(0, 4);
-        //atk = 3;
+        
         switch (atk)
         {
             case 1:
@@ -103,6 +130,14 @@ public class BoomerangBoss : BossBase
     {
         hasBoomerang = true;
         visualBoomerang.SetActive(true);
-       // m_stateMachine.ChangeState(m_stateMachine.idleState);
+        OnActionFinished();
+        // m_stateMachine.ChangeState(m_stateMachine.idleState);
+    }
+
+    public override void EnterBersekerMode()
+    {
+        base.EnterBersekerMode();
+        SetWeaponStats(minShootingCooldown/2, maxShootingCooldown/2, bossProjectilePrefab);
+
     }
 }

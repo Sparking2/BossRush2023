@@ -13,11 +13,6 @@ public class BossStateMachine : MonoBehaviour
     public BossIdleState idleState;
     public BossChaseState chaseState;
     public BossChannelState channelState;
-    //public BossAttackState meleeAttackState;
-    //public BossAttackState rangedAttackState;
-    //public BossAttackState tackleState;
-    //public BossAttackState chargedAttackState;
-
     // All attack states should be added to this array. 
     public BossAttackState[] attackStates;
 

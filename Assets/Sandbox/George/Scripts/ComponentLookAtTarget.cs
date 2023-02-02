@@ -6,14 +6,31 @@ public class ComponentLookAtTarget : MonoBehaviour
 {
     public bool canLookAtTarget = false;
     [SerializeField] private float lookSpeed;
+    private float originalLookSpeed;
     public Vector3 tmpTarget;
 
 
     public bool lookAtPlayer = false;
     public Transform playerTransform;
+
+    private void Start()
+    {
+        originalLookSpeed = lookSpeed;
+    }
+
     public void SetPlayerTransform(Transform _newTarget)
     {
         playerTransform = _newTarget;
+    }
+
+    public void SetLookSpeed(float _speed)
+    {
+        lookSpeed = _speed;
+    }
+
+    public void RestoreLookSpeed()
+    {
+        lookSpeed = originalLookSpeed;
     }
 
     public void SetTemporalTarget(Vector3 _tmp)

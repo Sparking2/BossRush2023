@@ -21,7 +21,7 @@ public abstract class BossBase : MonoBehaviour
     private void Start()
     {
         if (!statsScriptables) Debug.LogWarning("No stats scriptable found on the entity");
-        if (componentHealth) componentHealth.SetHealth(statsScriptables.maxHealth);
+      //  if (componentHealth) componentHealth.SetHealth(statsScriptables.maxHealth,this);
     }
 
     public void LookAtPlayer()

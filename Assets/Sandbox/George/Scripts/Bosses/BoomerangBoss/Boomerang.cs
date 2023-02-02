@@ -43,7 +43,7 @@ public class Boomerang : MonoBehaviour
     private Transform bossPosition;
 
     private Vector3 velocity;
-    private BoomerangBoss m_boss;
+    private BoomerBotBrain m_boss;
     private ComponentRotator m_rotator;
 
     private WaitForSeconds waitDuration;
@@ -88,7 +88,7 @@ public class Boomerang : MonoBehaviour
         }
     }
 
-    public void SetBoomerangBoss(BoomerangBoss _boss) { m_boss = _boss; }
+    public void SetBoomerangBoss(BoomerBotBrain _boss) { m_boss = _boss; }
 
     public void SetBossPosition(Transform _position) { bossPosition = _position; }
 
