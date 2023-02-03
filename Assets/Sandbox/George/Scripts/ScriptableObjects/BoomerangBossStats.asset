@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ccef70185c9c244b6abf31c4a5eb91, type: 3}
+  m_Name: BoomerangBossStats
+  m_EditorClassIdentifier: 
+  maxHealth: 150
+  idleMovementSpeed: 15
+  idleTime: 3
+  minWanderRadius: 5
+  maxWanderRadius: 7
+  minWaitBeforeWander: 1
+  maxWaitBeforeWander: 3
+  bersekerWait: 1.5
+  chaseTime: 0
+  chaseSpeed: 0
+  berseckerSpeed: 0
+  attackTriggerRadius: 0

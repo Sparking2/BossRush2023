@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BossAttackState : BaseState
 {
+
     public override void OnStateEnter(BossStateMachine _stateMachine)
     {
+
         _stateMachine.bossState = BossStateMachine.BossState.attacking;
     }
 
@@ -16,6 +18,6 @@ public class BossAttackState : BaseState
 
     public override void OnStateUpdate(BossStateMachine _stateMachine)
     {
-        throw new System.NotImplementedException();
+ 
     }
 }

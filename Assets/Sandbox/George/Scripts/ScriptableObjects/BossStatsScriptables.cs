@@ -16,7 +16,7 @@ public class BossStatsScriptables : ScriptableObject
     public float minWaitBeforeWander;
     public float maxWaitBeforeWander;
 
-    public float berseckerWait;
+    public float bersekerWait = .5f;
 
     [Header("Chase state parameters: "), Space(10)]
     public float chaseTime;
@@ -29,9 +29,9 @@ public class BossStatsScriptables : ScriptableObject
         return Random.Range(minWanderRadius, maxWanderRadius);
     }
 
-    public float GetWaitBeforeWander(bool _bersecker)
+    public float GetWaitBeforeWander(bool _berseker)
     {
 
-        return _bersecker?berseckerWait: Random.Range(minWaitBeforeWander, maxWaitBeforeWander);
+        return _berseker?bersekerWait: Random.Range(minWaitBeforeWander, maxWaitBeforeWander);
     }
 }

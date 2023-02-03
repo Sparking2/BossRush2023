@@ -44,12 +44,19 @@ public class BigClawChaseState : BossChaseState
         if (chaseWaitTime >= 0.0f) return;
         chaseWaitTime = 0f;
         _stateMachine.agent.isStopped = false;
+   
+        if (_stateMachine.agent.remainingDistance < _stateMachine.attackRange)
+        {
+            Debug.Log("Arrived");
+            _stateMachine.agent.acceleration = 750f;
+            _stateMachine.ChangeState(_stateMachine.attackStates[0]);
+        }
 
-        if (Vector3.Distance(_stateMachine.transform.position, target) >= 2f) return;
+
         //_stateMachine.agent.isStopped = true;
-        _stateMachine.agent.acceleration = 750f;
+
         //_stateMachine.agent.ResetPath();
         //_stateMachine.agent.SetDestination(_stateMachine.transform.position);
-        _stateMachine.ChangeState(_stateMachine.meleeAttackState);
+
     }
 }

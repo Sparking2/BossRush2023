@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class BossStateMachine : MonoBehaviour
 {
+    [HideInInspector]
     public BossStatsScriptables bossStats;
     public BossState bossState = BossState.idle;
 
     public BossIdleState idleState;
     public BossChaseState chaseState;
     public BossChannelState channelState;
-    public BossAttackState meleeAttackState;
-    public BossAttackState rangedAttackState;
-    public BossAttackState tackleState;
-    public BossAttackState chargedAttackState;
+    //public BossAttackState meleeAttackState;
+    //public BossAttackState rangedAttackState;
+    //public BossAttackState tackleState;
+    //public BossAttackState chargedAttackState;
 
+    // All attack states should be added to this array. 
     public BossAttackState[] attackStates;
 
     private BaseState currentState;
@@ -50,6 +53,7 @@ public class BossStateMachine : MonoBehaviour
 
     private void Start()
     {
+        bossStats = bossBase.statsScriptables;
         InitializeStats();
         InitializeStates();
 
@@ -59,6 +63,11 @@ public class BossStateMachine : MonoBehaviour
 
     private void InitializeStats()
     {
+        if (!bossStats)
+        {
+            Debug.LogWarning("No scriptable found in boss stats");
+            return;
+        }
         agent.speed = bossStats.idleMovementSpeed;
     }
 
@@ -67,12 +76,21 @@ public class BossStateMachine : MonoBehaviour
         idleState = new BossIdleState();
         chaseState = new BossChaseState();
         channelState = new BossChannelState();
-        meleeAttackState = new BossAttackState();
+       // meleeAttackState = new BossAttackState();
     }
 
     private void Update()
     {
-        if(currentState != null) currentState.OnStateUpdate(this);
+        if (currentState == null) return;
+        if (currentState.doOnFixed) return;
+        currentState.OnStateUpdate(this);
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentState == null) return;
+        if (!currentState.doOnFixed) return;
+        currentState.OnStateUpdate(this);
     }
 
     public void ChangeState(BaseState _nextState)
@@ -91,13 +109,20 @@ public class BossStateMachine : MonoBehaviour
         //randomPosition *= 1.5f;
         NavMeshHit hit;
         NavMesh.SamplePosition(randomPosition, out hit, wanderRadius, 1);
-        debugPosition.position = hit.position;
+        if(debugPosition) debugPosition.position = hit.position;
         return hit.position;
 
         //Vector3 newPoint = WaypointManager.Instance.GetWaypoint();
         //NavMeshHit hit;
         //NavMesh.SamplePosition(newPoint, out hit, 1.5f, 1);
         //return hit.position;
+    }
+
+    public Vector3 GetTargetPoint(Vector3 _targetPosition)
+    {
+        NavMeshHit hit;
+        NavMesh.SamplePosition(_targetPosition, out hit, 3, 1);
+        return hit.position;
     }
 
     public enum BossState { idle,chasing,channeling,attacking,dead }

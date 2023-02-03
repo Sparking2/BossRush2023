@@ -48,7 +48,7 @@ public class BigClawIdleState : BossIdleState
     public override void OnIdleFinished(BossStateMachine _stateMachine)
     {
         int attackIndex = Random.Range(0, 3);
-       // attackIndex = 1;
+        attackIndex = 2;
 
         _stateMachine.agent.isStopped = true;
         _stateMachine.agent.ResetPath();
@@ -60,10 +60,10 @@ public class BigClawIdleState : BossIdleState
                 break;
             case 1: // Range Attack
                 // TODO BERSECKER RANGED ATTACK
-                _stateMachine.ChangeState(_stateMachine.bossBase.isBerserker ? _stateMachine.chargedAttackState : _stateMachine.rangedAttackState);
+                _stateMachine.ChangeState(_stateMachine.bossBase.isBerserker ? _stateMachine.attackStates[3] : _stateMachine.attackStates[1]);
                 break;
             case 2:
-                _stateMachine.ChangeState(_stateMachine.tackleState);
+                _stateMachine.ChangeState(_stateMachine.attackStates[2]);
                 break;
         }
 
