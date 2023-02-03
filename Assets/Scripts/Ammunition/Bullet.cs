@@ -33,7 +33,7 @@ namespace Ammunition
             }
         }
 
-        private void OnTriggerEnter( Collider other ) => OnImpact(other);
+        private void OnCollisionEnter( Collision other ) => OnImpact(other);
 
         public override void Fire( Vector3 direction )
         {
@@ -43,12 +43,13 @@ namespace Ammunition
             _rigidbody.velocity = direction * velocity;
         }
 
-        public override void OnImpact(Collider impactedObject)
+        public override void OnImpact( Collision impactedObject )
         {
-            if ( impactedObject.TryGetComponent(out HealthComponent healthComponent) )
+            if ( impactedObject.gameObject.TryGetComponent(out HealthComponent healthComponent) )
             {
                 healthComponent.DoDamage(1.0f);
             }
+
             Reset();
         }
 

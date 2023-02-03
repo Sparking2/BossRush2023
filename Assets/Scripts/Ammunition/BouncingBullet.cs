@@ -15,6 +15,23 @@ namespace Ammunition
 
         private float _currentLife;
 
+        private void Awake()
+        {
+            if ( !TryGetComponent(out _rigidbody) )
+                throw new Exception("Can't find rigidbody");
+            if ( !TryGetComponent(out _trailRenderer) )
+                throw new Exception("Can't find trailRenderer");
+        }
+
+        private void Update()
+        {
+            _currentLife += Time.deltaTime;
+            if ( _currentLife > maxLife )
+            {
+                Reset();
+            }
+        }
+        
         public override void Fire( Vector3 direction )
         {
             _trailRenderer.Clear();
@@ -23,15 +40,18 @@ namespace Ammunition
             _rigidbody.velocity = direction * velocity;
         }
 
-        private void OnTriggerEnter( Collider other ) => OnImpact(other);
+        private void OnCollisionEnter( Collision collision ) => OnImpact(collision);
 
-        public override void OnImpact( Collider impactedObject ) { }
+        public override void OnImpact( Collision impactedObject )
+        {
+            Debug.Log(impactedObject.gameObject.name);
+        }
 
         public override void Reset()
         {
             _trailRenderer.Clear();
-            _trailRenderer.emitting = false;
-            _trailRenderer.enabled = false;
+            // _trailRenderer.emitting = false;
+            // _trailRenderer.enabled = false;
             _currentLife = 0.0f;
             _rigidbody.velocity = Vector3.zero;
             ResetEvent?.Invoke();
