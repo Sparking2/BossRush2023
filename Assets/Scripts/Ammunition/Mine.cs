@@ -3,17 +3,27 @@ using UnityEngine;
 
 namespace Ammunition
 {
-    public class BouncingBullet : Projectile
+    public class Mine : Projectile
     {
+        private enum MineState
+        {
+            Launched,
+            Armed,
+            Exploding,
+        }
+
         private Rigidbody _rigidbody;
         private TrailRenderer _trailRenderer;
 
         [SerializeField]
-        private float velocity = 150;
+        private float velocity = 75;
         [SerializeField]
-        public float maxLife = 2.0f;
+        public float maxLife = 10.0f;
+        [SerializeField]
+        private Transform mineDamageArea;
 
         private float _currentLife;
+        private MineState _currentMineState = MineState.Launched;
 
         private void Awake()
         {
@@ -22,11 +32,14 @@ namespace Ammunition
             if ( !TryGetComponent(out _trailRenderer) )
                 throw new Exception("Can't find trailRenderer");
 
-            _rigidbody.useGravity = false;
+            _rigidbody.useGravity = true;
         }
 
         private void Update()
         {
+            if ( _currentMineState is MineState.Armed or MineState.Exploding )
+                return;
+
             _currentLife += Time.deltaTime;
             if ( _currentLife > maxLife )
             {
@@ -46,14 +59,20 @@ namespace Ammunition
 
         public override void OnImpact( Collision impactedObject )
         {
-            Debug.Log(impactedObject.gameObject.name);
+            _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            _currentMineState = MineState.Armed;
+            if ( mineDamageArea != null )
+            {
+                GetComponent<Collider>().enabled = false;
+                mineDamageArea.gameObject.SetActive(true);
+            }
         }
 
         public override void Reset()
         {
             _trailRenderer.Clear();
-            // _trailRenderer.emitting = false;
-            // _trailRenderer.enabled = false;
+            _trailRenderer.emitting = false;
+            _trailRenderer.enabled = false;
             _currentLife = 0.0f;
             _rigidbody.velocity = Vector3.zero;
             ResetEvent?.Invoke();

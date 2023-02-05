@@ -9,6 +9,8 @@ namespace Player
         private Transform _cameraTransform;
         [SerializeField]
         private Transform targetSphere;
+        [SerializeField]
+        public LayerMask ignoreLayer;
 
         public Vector3 CurrentTarget { get; private set; }
 
@@ -24,7 +26,7 @@ namespace Player
         private void Update()
         {
             if ( !Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out RaycastHit hit,
-                    Mathf.Infinity) )
+                    Mathf.Infinity, ignoreLayer) )
             {
                 CurrentTarget = _cameraTransform.forward * 100.0f;
             }

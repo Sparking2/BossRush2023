@@ -339,6 +339,7 @@ MonoBehaviour:
   burstShotSpawnCooldown: 0.1
   waveShotCooldownMultiplier: 3
   currentFireMode: 0
+  currentAmmoType: 0
 --- !u!114 &2707345655583567059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +353,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSphere: {fileID: 7568981488392811498}
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 2147483648
 --- !u!95 &905184239404946434
 Animator:
   serializedVersion: 5
@@ -794,10 +798,10 @@ MonoBehaviour:
     m_Offset: {x: 0, y: 0, z: 0}
     m_MinLimit: -180
     m_MaxLimit: 180
-    m_AimAxis: 4
-    m_UpAxis: 0
-    m_WorldUpType: 0
-    m_WorldUpObject: {fileID: 0}
+    m_AimAxis: 2
+    m_UpAxis: 1
+    m_WorldUpType: 1
+    m_WorldUpObject: {fileID: 7568981488392811498}
     m_WorldUpAxis: 2
     m_MaintainOffset: 0
     m_ConstrainedAxes:
