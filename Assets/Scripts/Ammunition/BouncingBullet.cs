@@ -1,4 +1,5 @@
 ﻿using System;
+using Sandbox.Victor;
 using UnityEngine;
 
 namespace Ammunition
@@ -7,13 +8,15 @@ namespace Ammunition
     {
         private Rigidbody _rigidbody;
         private TrailRenderer _trailRenderer;
+        private float _currentLife;
+        private ushort _currentBounce = 0;
 
         [SerializeField]
         private float velocity = 150;
         [SerializeField]
         public float maxLife = 2.0f;
-
-        private float _currentLife;
+        [SerializeField]
+        private ushort maxBonceCount = 10;
 
         private void Awake()
         {
@@ -46,7 +49,15 @@ namespace Ammunition
 
         public override void OnImpact( Collision impactedObject )
         {
-            Debug.Log(impactedObject.gameObject.name);
+            _currentLife = 0.0f;
+            _currentBounce++;
+            if ( TryGetComponent(out HealthComponent hp) )
+            {
+                hp.DoDamage(1.0f);
+            }
+
+            if ( _currentBounce > maxBonceCount )
+                Reset();
         }
 
         public override void Reset()
@@ -55,6 +66,7 @@ namespace Ammunition
             // _trailRenderer.emitting = false;
             // _trailRenderer.enabled = false;
             _currentLife = 0.0f;
+            _currentBounce = 0;
             _rigidbody.velocity = Vector3.zero;
             ResetEvent?.Invoke();
         }

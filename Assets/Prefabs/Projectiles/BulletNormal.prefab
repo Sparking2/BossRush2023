@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3602729561352583152}
   - component: {fileID: 3602729561352583156}
   - component: {fileID: 3602729561352583157}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: BulletNormal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3602729561352583155}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.06
@@ -198,7 +198,6 @@ GameObject:
   - component: {fileID: 3602729562525354217}
   - component: {fileID: 3602729562525354220}
   - component: {fileID: 3602729562525354223}
-  - component: {fileID: 3602729562525354222}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -271,16 +270,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3602729562525354222
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3602729562525354216}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}

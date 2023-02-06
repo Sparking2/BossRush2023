@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6013587082875765898}
   - component: {fileID: 6013587082875765902}
   - component: {fileID: 6013587082875765903}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: BouncingBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 150
   maxLife: 3
+  maxBonceCount: 10
 --- !u!135 &6013587082875765898
 SphereCollider:
   m_ObjectHideFlags: 0

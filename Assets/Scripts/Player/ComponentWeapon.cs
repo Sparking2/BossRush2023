@@ -21,7 +21,7 @@ namespace Player
         private FireMode currentFireMode = FireMode.Single;
         [SerializeField]
         private ProjectileType currentAmmoType = ProjectileType.Bullet;
-        
+
         private ComponentInput _input;
         private ComponentTarget _target;
         private bool _wasFiring;
@@ -100,14 +100,13 @@ namespace Player
             _wasFiring = true;
             _currentCooldown = -fireCooldown * waveShotCooldownMultiplier;
 
-            for ( var i = 0; i < 15; i++ )
+            for ( var i = 0; i < 5; i++ )
             {
                 Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();
-                var randomOffset = new Vector3(UnityEngine.Random.Range(-10.0f, 10.0f),
-                    UnityEngine.Random.Range(-10.0f, 10.0f), 0);
-                Vector3 rotation = transform.rotation.eulerAngles + randomOffset;
-                bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.Euler(rotation));
-                bullet.Fire(CalculateBulletDirection());
+                var randomOffset = new Vector3(UnityEngine.Random.Range(-0.0625f, 0.0625f),
+                    UnityEngine.Random.Range(-0.0625f, 0.0625f), UnityEngine.Random.Range(-0.0625f, 0.0625f));
+                bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.identity);
+                bullet.Fire(CalculateBulletDirection() + randomOffset);
             }
         }
 
@@ -144,7 +143,7 @@ namespace Player
         {
             currentAmmoType = targetProjectile;
         }
-        
+
         private Vector3 CalculateBulletDirection()
         {
             Vector3 heading = _target.CurrentTarget - weaponBarrelEnd.position;
@@ -152,7 +151,7 @@ namespace Player
             Vector3 direction = heading / distance;
             return direction;
         }
-        
+
         private IEnumerator FireBurst()
         {
             for ( var i = 0; i < 3; i++ )

@@ -73,8 +73,12 @@ namespace Ammunition
             _trailRenderer.Clear();
             _trailRenderer.emitting = false;
             _trailRenderer.enabled = false;
+            _currentMineState = MineState.Launched;
+            mineDamageArea.gameObject.SetActive(false);
+            GetComponent<Collider>().enabled = true;
             _currentLife = 0.0f;
             _rigidbody.velocity = Vector3.zero;
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             ResetEvent?.Invoke();
         }
     }

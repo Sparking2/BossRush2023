@@ -37,7 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Projectile
   - LethalTrigger
   m_SortingLayers:
   - name: Default
