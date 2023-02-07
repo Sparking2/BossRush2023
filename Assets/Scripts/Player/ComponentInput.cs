@@ -6,18 +6,22 @@ namespace Player
     {
         public delegate void VectorEvent( Vector2 vector );
 
+        public delegate void SingleTriggerEvent();
+
         public delegate void BoolEvent( float isTriggered );
 
         private UserActions _userActions;
 
         public VectorEvent InputEventMove;
         public VectorEvent InputEventLook;
+        public SingleTriggerEvent InputEventJump;
         public BoolEvent InputEventFire;
 
         private void Start()
         {
             _userActions = new UserActions();
             _userActions.Player.Enable();
+            _userActions.Player.Jump.performed += _ => InputEventJump?.Invoke();
         }
 
         private void Update()

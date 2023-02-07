@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ComponentHealth : MonoBehaviour
 {
+
     [Header("Health component: "), Space(10)]
     private float maxHealth;
     [SerializeField] private float health;
