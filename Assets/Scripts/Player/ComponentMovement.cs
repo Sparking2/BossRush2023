@@ -15,6 +15,7 @@ namespace Player
         private Vector3 _currentMovement;
         private Vector3 _forward;
         private Vector3 _right;
+        private readonly Vector3 _gravityVector = new Vector3(0f, -9.81f, 0f);
 
         private void Start()
         {
@@ -39,7 +40,9 @@ namespace Player
             _forward = _playerTransform.forward;
             _right = _playerTransform.right;
             _currentMovement = _forward * moveDirection.y + _right * moveDirection.x;
-            _characterController.Move(_currentMovement * ( speed * Time.deltaTime ));
+            _currentMovement *= speed * Time.deltaTime;
+            // _currentMovement += _gravityVector * Time.deltaTime;
+            _characterController.Move(_currentMovement);
         }
     }
 }

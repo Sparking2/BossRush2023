@@ -7,8 +7,9 @@ namespace Ammunition
         public delegate void TriggerReset();
         public TriggerReset ResetEvent;
 
-        public abstract void Fire();
-        public abstract void OnImpact();
+        public abstract void Fire( Vector3 direction );
+
+        public abstract void OnImpact( Collision impactedObject );
 
         public abstract void Reset();
     }

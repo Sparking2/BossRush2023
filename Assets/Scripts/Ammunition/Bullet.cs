@@ -8,11 +8,11 @@ namespace Ammunition
     {
         private Rigidbody _rigidbody;
         private TrailRenderer _trailRenderer;
-        
+
         [SerializeField]
         private float velocity = 1;
 
-        private float _currentLife = 0.0f;
+        private float _currentLife;
         [SerializeField]
         public float maxLife = 2.0f;
 
@@ -20,7 +20,7 @@ namespace Ammunition
         {
             if ( !TryGetComponent(out _rigidbody) )
                 throw new Exception("Can't find rigidbody");
-            if(!TryGetComponent(out _trailRenderer))
+            if ( !TryGetComponent(out _trailRenderer) )
                 throw new Exception("Can't find trailRenderer");
         }
 
@@ -33,28 +33,26 @@ namespace Ammunition
             }
         }
 
-        private void OnTriggerEnter( Collider other )
-        {
-            Debug.Log(other.name);
-            if ( other.TryGetComponent(out HealthComponent healthComponent) )
-            {
-                Reset();
-                // TODO: do damage...                
-            }
-        }
+        private void OnCollisionEnter( Collision other ) => OnImpact(other);
 
-        public override void Fire()
+        public override void Fire( Vector3 direction )
         {
             _trailRenderer.Clear();
             _trailRenderer.emitting = true;
             _trailRenderer.enabled = true;
-            _rigidbody.velocity = transform.forward * velocity;
+            _rigidbody.velocity = direction * velocity;
         }
 
-        public override void OnImpact()
+        public override void OnImpact( Collision impactedObject )
         {
+            if ( impactedObject.gameObject.TryGetComponent(out HealthComponent healthComponent) )
+            {
+                healthComponent.DoDamage(1.0f);
+            }
+
+            Reset();
         }
-        
+
         public override void Reset()
         {
             _trailRenderer.Clear();
