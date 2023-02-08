@@ -4,71 +4,59 @@ using UnityEngine;
 
 public class BigClawFeet : MonoBehaviour
 {
-    [SerializeField] private float launchSpeed = 15;
-    private bool ballHit = false;
-    [SerializeField] private float retractCooldown = 3.0f;
-    [SerializeField] private Transform initialPosition;
-    private Rigidbody rb;
-    [SerializeField] private LineRenderer lineRenderer;
-
-    public delegate void OnBallCaptured();
-    public static event OnBallCaptured OnCapture;
-
-
+    [SerializeField] private float launchSpeed;
+    private Transform playerTransform;
+    private Rigidbody _rigidbody;
+    [SerializeField] private Transform origin;
+    [SerializeField] private LineRenderer chainLineRenderer;
+    private BigClawBrain brain;
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-
+        brain = GetComponentInParent<BigClawBrain>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
-
-    private void Start()
+    public void Launch()
     {
-        transform.SetParent(null);
-    }
-    private void OnEnable()
-    {
-        rb.velocity = Vector3.zero;
-        // LaunchBall here
-        lineRenderer.enabled = true;
-
-        retractCooldown = 1.0f;
-        ballHit = false;
-    }
-
-    public void OnLaunch(Vector3 _launchDir)
-    {
-        transform.position = initialPosition.position;
-
-        rb.velocity = _launchDir * launchSpeed;
+        gameObject.SetActive(true);
+        transform.localScale = new Vector3(0.75f, 0.75f, 1.75f);
+        chainLineRenderer.enabled = true;
+        Vector3 dir = playerTransform.position - transform.position;
+        dir.y += 2.0f;
+        _rigidbody.velocity = dir * launchSpeed;
     }
 
     private void Update()
     {
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, initialPosition.position);
-
+        chainLineRenderer.SetPosition(0, origin.transform.position);
+        chainLineRenderer.SetPosition(1, transform.position);
     }
 
-    private void ReturnToBoss()
+    public void ReturnToOrigin()
     {
-        Vector3 dir = initialPosition.position - transform.position;
-        rb.velocity = dir * 3.0f;
+        StartCoroutine(ReturnTween());
+    }
+
+    private IEnumerator ReturnTween()
+    {
+        transform.localScale = new Vector3(0.75f, 0.75f, 1.75f);
+        transform.LookAt(origin);
+        while(Vector3.Distance(transform.position,origin.position) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, origin.position, 55.0f * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = origin.position;
+        gameObject.SetActive(false);
+        brain.OnFeetReturned();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wall") && !ballHit)
+        if (other.CompareTag("Wall"))
         {
-            rb.velocity = Vector3.zero;
-            ballHit = true;
-            Invoke("ReturnToBoss", retractCooldown);
-        } else if(other.CompareTag("Boss") && ballHit)
-        {
-            rb.velocity = Vector3.zero;
-            ballHit = false;
-
-            gameObject.SetActive(false);
-            OnCapture?.Invoke();
+            transform.localScale = Vector3.one;
+            _rigidbody.velocity = Vector3.zero;
         }
     }
 }

@@ -1,25 +1,40 @@
+using Ammunition;
+using Ammunition.Pool;
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ComponentBossShooters : MonoBehaviour
 {
+
      private bool canShoot;
      private float minShootCooldown = .5f;
      private float maxShootCooldown;
      private float shootCooldown;
-     private GameObject bulletPrefab;
+     public bool playerInSight;
+     private ProjectileType boomerBotProjectile;
 
 
     private void Update()
     {
         if (canShoot == false) return;
 
+        HandleShoot();
+    }
+
+    private void HandleShoot()
+    {
         if (shootCooldown > 0.0f) shootCooldown -= Time.deltaTime;
         else
         {
+            if (!playerInSight) return;
             shootCooldown = Random.Range(minShootCooldown, maxShootCooldown);
-            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            //Instantiate(bulletPrefab, transform.position, transform.rotation);
+ 
+            Projectile bullet = PoolManager.GetPool(boomerBotProjectile).Get();
+            bullet.transform.SetPositionAndRotation(transform.position, Quaternion.LookRotation(transform.forward));
+            bullet.Fire(transform.forward);
         }
     }
 
@@ -31,9 +46,9 @@ public class ComponentBossShooters : MonoBehaviour
         shootCooldown = Random.Range(minShootCooldown, maxShootCooldown);
     }
 
-    public void SetProjectile(GameObject _projectilePrefab)
+    public void SetProjectile(ProjectileType _projectilePrefab)
     {
-        bulletPrefab = _projectilePrefab;
+        boomerBotProjectile = _projectilePrefab;
     }
 
     public void SetCanShoot(bool _canShot)

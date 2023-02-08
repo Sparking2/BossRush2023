@@ -15,9 +15,9 @@ namespace Ammunition
 
         private void OnTriggerEnter( Collider other )
         {
-            if ( !other.TryGetComponent(out HealthComponent hp) ) return;
+            if ( !other.TryGetComponent(out ComponentHealth hp) ) return;
             
-            hp.DoDamage(1.0f);
+            hp.ReduceHealth(1.0f);
             // TODO: VFX?
             _mineParent.Reset();
         }

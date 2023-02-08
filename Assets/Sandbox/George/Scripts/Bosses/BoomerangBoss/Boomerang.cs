@@ -43,7 +43,7 @@ public class Boomerang : MonoBehaviour
     private Transform bossPosition;
 
     private Vector3 velocity;
-    private BoomerangBoss m_boss;
+    private BoomerBotBrain m_boss;
     private ComponentRotator m_rotator;
 
     private WaitForSeconds waitDuration;
@@ -88,7 +88,7 @@ public class Boomerang : MonoBehaviour
         }
     }
 
-    public void SetBoomerangBoss(BoomerangBoss _boss) { m_boss = _boss; }
+    public void SetBoomerangBoss(BoomerBotBrain _boss) { m_boss = _boss; }
 
     public void SetBossPosition(Transform _position) { bossPosition = _position; }
 
@@ -249,7 +249,7 @@ public class Boomerang : MonoBehaviour
     private IEnumerator ExplosiveAttack(Transform _target)
     {
         // In bersecker mode the boomerang explode and shoot multiple projectiles, also chases the player another time.
-        target = _target.position;
+        target = new Vector3(_target.position.x, _target.position.y + 1.5f, _target.position.z);
         float speed = initialMovementSpeed;
         while (speed > 0.0f)
         {
@@ -273,7 +273,7 @@ public class Boomerang : MonoBehaviour
     {
         // In bersecker mode the laser does a final laser burst in a bigger size
         target = _targetPosition;
-        target.y = 0.6f;
+        target.y = 1.5f;
         StartCoroutine(MoveToTarget(target, launchSpeed));
         yield return waitUntilArriveToTarget;
 
