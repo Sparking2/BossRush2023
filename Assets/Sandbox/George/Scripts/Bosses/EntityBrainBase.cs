@@ -8,6 +8,7 @@ public abstract class EntityBrainBase : MonoBehaviour
     public BossStatsScriptables bossStats;
     public bool isBerseker;
     [SerializeField] private float restingTime;
+    [SerializeField] private bool hasMovingAnimation;
     [HideInInspector] public bool canDoAction = true;
     private float originalAcceleration;
     public EntityState state = EntityState.idle;
@@ -15,6 +16,7 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     [HideInInspector] public Vector3 targetPoint;
     [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public Vector3 playerPos;
     public WaitUntil waitUntilIsOnTarget;
 
     private ComponentHealth componentHealth;
@@ -53,6 +55,7 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     private void Update()
     {
+        playerPos = new Vector3(playerTransform.position.x, playerTransform.position.y + 1.5f, playerTransform.position.z);
         OnUpdate();
         if (state != EntityState.idle) return;
         if (thinkTimer > 0f) thinkTimer -= Time.deltaTime;
@@ -62,7 +65,7 @@ public abstract class EntityBrainBase : MonoBehaviour
             else
             {
                 StartCoroutine(MoveToRandomPoint());
-                thinkTimer = bossStats.idleTime;
+                thinkTimer = bossStats.GetWaitBeforeWander(isBerseker);
             }
         } 
     }
@@ -84,9 +87,11 @@ public abstract class EntityBrainBase : MonoBehaviour
     public IEnumerator MoveToRandomPoint()
     {
         state = EntityState.moving;
-        targetPoint = CustomTools.GetRandomPointOnMesh(bossStats.GetWanderRadius(),transform.position);
+        targetPoint = CustomTools.GetRandomPointOnMesh(bossStats.GetWanderRadius(),Vector3.zero);
+        if (hasMovingAnimation) animator.SetBool("isMoving", true);
         agent.SetDestination(targetPoint);
         yield return waitUntilIsOnTarget;
+        animator.SetBool("isMoving", false);
         state = EntityState.idle;
         thinkTimer = bossStats.idleTime / 2;
     }
@@ -98,7 +103,9 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     public virtual void EnterBersekerMode()
     {
+        if (isBerseker) return;
         isBerseker = true;
+        restingTime /= 2;
     }
 
     #region Abstracts methods

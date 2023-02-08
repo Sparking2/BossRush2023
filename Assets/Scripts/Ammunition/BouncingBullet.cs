@@ -51,9 +51,9 @@ namespace Ammunition
         {
             _currentLife = 0.0f;
             _currentBounce++;
-            if ( TryGetComponent(out HealthComponent hp) )
+            if ( TryGetComponent(out ComponentHealth hp) )
             {
-                hp.DoDamage(1.0f);
+                hp.ReduceHealth(1.0f);
             }
 
             if ( _currentBounce > maxBonceCount )

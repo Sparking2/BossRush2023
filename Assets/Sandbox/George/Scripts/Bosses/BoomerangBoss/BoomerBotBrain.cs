@@ -1,3 +1,4 @@
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class BoomerBotBrain : EntityBrainBase
 {
     [SerializeField] private float minShootingCooldown;
     [SerializeField] private float maxShootingCooldown;
-    [SerializeField] private GameObject bossProjectilePrefab;
+    [SerializeField] private ProjectileType bossProjectilePrefab;
 
     [SerializeField] private ComponentBossShooters[] componentBosses;
     [SerializeField] private Boomerang boomerang;
@@ -14,6 +15,8 @@ public class BoomerBotBrain : EntityBrainBase
     [SerializeField] private Transform boomerangPivot;
     public bool hasBoomerang;
 
+    [SerializeField] private LayerMask playerMask;
+    [SerializeField] private Transform aimHandle;
     [SerializeField] private ComponentLookAtTarget componentLookAtTarget;
     private float waitTime;
     private Vector3 launchPosition;
@@ -33,7 +36,7 @@ public class BoomerBotBrain : EntityBrainBase
         waitTime = bossStats.GetWaitBeforeWander(isBerseker);
     }
 
-    private void SetWeaponStats(float min,float max,GameObject projectile)
+    private void SetWeaponStats(float min,float max, ProjectileType projectile)
     {
         foreach (ComponentBossShooters _component in componentBosses)
         {
@@ -45,7 +48,7 @@ public class BoomerBotBrain : EntityBrainBase
 
     public override void OnUpdate()
     {
-       if(agent.remainingDistance <= 0.3f)
+        if (agent.remainingDistance <= 0.3f)
         {
             if (waitTime > 0.0f) waitTime -= Time.deltaTime;
             else
@@ -54,7 +57,33 @@ public class BoomerBotBrain : EntityBrainBase
                 agent.SetDestination(targetPoint);
                 waitTime = bossStats.GetWaitBeforeWander(isBerseker);
             }
- 
+        }
+
+        HandleAiming();
+    }
+
+    private void HandleAiming()
+    {
+        RaycastHit hit;
+        Vector3 _direction;
+   
+        playerPos = new Vector3(playerTransform.position.x, aimHandle.position.y, playerTransform.position.z);
+        _direction = playerPos - aimHandle.position;
+        if (Physics.Raycast(aimHandle.position, _direction, out hit, Mathf.Infinity, playerMask))
+        {
+            if (hit.transform.CompareTag("Player"))
+            {
+                Debug.DrawRay(aimHandle.position, _direction * hit.distance, Color.green);
+            }
+            else
+            {
+                Debug.DrawRay(aimHandle.position, _direction * hit.distance, Color.red);
+            }
+
+            foreach (ComponentBossShooters _component in componentBosses)
+            {
+                _component.playerInSight = hit.transform.CompareTag("Player");
+            }
         }
     }
 
@@ -75,7 +104,7 @@ public class BoomerBotBrain : EntityBrainBase
         switch (atk)
         {
             case 0:
-                boomerang.PerformInAndOutAttack(playerTransform.position, isBerseker);
+                boomerang.PerformInAndOutAttack(playerPos, isBerseker);
                 break;
             case 1:
                 boomerang.PerformBulletVortexAttack(isBerseker);
@@ -87,7 +116,7 @@ public class BoomerBotBrain : EntityBrainBase
                 boomerang.PerformLaserAttack(launchPosition, isBerseker);
                 break;
             default:
-                boomerang.PerformInAndOutAttack(playerTransform.position, isBerseker);
+                boomerang.PerformInAndOutAttack(playerPos, isBerseker);
                 break;
         }
     }

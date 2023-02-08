@@ -4862,8 +4862,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunActive: 0
   isBerseker: 0
-  projectilePrefab: {fileID: 3827610543218184864, guid: 5a0cb32627e8f8a4f8d6e17bb037541c, type: 3}
-  specialProjectilePrefab: {fileID: 5916591098105524456, guid: ee87a41abe1e82844a4aef93dd7ba8fc, type: 3}
+  projectilePrefab: 0
+  specialProjectilePrefab: 0
 --- !u!114 &1333677838641380097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4879,7 +4879,7 @@ MonoBehaviour:
   isActive: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 193
   dangerLineRenderer: {fileID: 2133004945265439588}
   lineRenderer: {fileID: 1333677838680155310}
   preHeatParticles: {fileID: 1333677838887088493}

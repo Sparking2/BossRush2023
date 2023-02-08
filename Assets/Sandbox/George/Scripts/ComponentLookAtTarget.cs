@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ComponentLookAtTarget : MonoBehaviour
 {
-    public bool canLookAtTarget = false;
+    public bool canLookAtTarget = false; // This variable is to control the whole script, because the component can look at a target or at the player.
+    [SerializeField] private bool normalizeY;
     [SerializeField] private float lookSpeed;
     private float originalLookSpeed;
     public Vector3 tmpTarget;
 
-
-    public bool lookAtPlayer = false;
+    public bool lookAtPlayer = false; // This variable controls if the object will look at the player or a set target.
     public Transform playerTransform;
 
     private void Start()
@@ -51,7 +51,7 @@ public class ComponentLookAtTarget : MonoBehaviour
         if (lookAtPlayer)
         {
             var lookPos = playerTransform.position - transform.position;
-            lookPos.y = 0;
+            if(normalizeY) lookPos.y = 0;
             var targetRotation = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);
         } else

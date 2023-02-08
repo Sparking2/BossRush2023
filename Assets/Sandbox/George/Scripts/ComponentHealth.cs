@@ -7,20 +7,12 @@ public class ComponentHealth : MonoBehaviour
     private float maxHealth;
     [SerializeField] private float health;
     private float bersekerTreshold;
-    [SerializeField] private ComponentHealthMaterialController[] healthMaterials;
+    private ComponentHealthMaterialController[] healthMaterials;
     private EntityBrainBase m_bossBrain;
 
     private void Awake()
     {
         healthMaterials = GetComponentsInChildren<ComponentHealthMaterialController>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ReduceHealth(Random.Range(5, 25));
-        }
     }
 
     public void SetHealth(float _health, EntityBrainBase brain)
@@ -29,7 +21,7 @@ public class ComponentHealth : MonoBehaviour
         maxHealth = _health;
         health = _health;
         bersekerTreshold = health / 2;
-        if(healthMaterials.Length >0)
+        if(healthMaterials.Length > 0)
         {
             foreach(var mat in healthMaterials)
             {

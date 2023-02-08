@@ -10,13 +10,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - IgnoreLight
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Environment
+  - WallEnvironment
+  - BossEntity
+  - Player
   - 
   - 
   - 
