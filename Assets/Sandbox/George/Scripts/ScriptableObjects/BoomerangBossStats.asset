@@ -17,8 +17,8 @@ MonoBehaviour:
   idleTime: 3
   minWanderRadius: 5
   maxWanderRadius: 7
-  minWaitBeforeWander: 1
-  maxWaitBeforeWander: 3
+  minWaitBeforeWander: 0.25
+  maxWaitBeforeWander: 1
   bersekerWait: 1.5
   chaseTime: 0
   chaseSpeed: 0

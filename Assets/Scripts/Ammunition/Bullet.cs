@@ -45,9 +45,11 @@ namespace Ammunition
 
         public override void OnImpact( Collision impactedObject )
         {
-            if ( impactedObject.gameObject.TryGetComponent(out HealthComponent healthComponent) )
+            Debug.Log(impactedObject.gameObject.name);
+            if ( impactedObject.gameObject.TryGetComponent(out ComponentHealth healthComponent) )
             {
-                healthComponent.DoDamage(1.0f);
+     
+                healthComponent.ReduceHealth(5.0f);
             }
 
             Reset();
