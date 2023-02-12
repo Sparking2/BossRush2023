@@ -13,7 +13,11 @@ namespace Player
         [SerializeField]
         private float jumpHeight = 5.0f;
         private const float GravityValue = -9.81f;
-
+        [SerializeField]
+        private float jumpUpwardsAccelerator = 1.0f;
+        [SerializeField]
+        private float jumpDownwardsAccelerator = 1.0f;
+        
         private void Start()
         {
             if ( !TryGetComponent(out _input) )
@@ -31,7 +35,6 @@ namespace Player
 
         private void MovementJump()
         {
-            // _groundedPlayer = _characterController.isGrounded;
             if ( Physics.Raycast(_characterController.transform.position, Vector3.down, out RaycastHit hit, 0.1f) )
             {
                 _groundedPlayer = true;
@@ -48,11 +51,11 @@ namespace Player
 
             if ( _jumpPressed && _groundedPlayer )
             {
-                _playerVelocity.y += Mathf.Sqrt(jumpHeight * -1.0f * GravityValue);
+                _playerVelocity.y += Mathf.Sqrt(jumpHeight * -jumpUpwardsAccelerator * GravityValue);
                 _jumpPressed = false;
             }
 
-            _playerVelocity.y += GravityValue * Time.deltaTime;
+            _playerVelocity.y += (GravityValue * jumpDownwardsAccelerator) * Time.deltaTime;
             _characterController.Move(_playerVelocity * Time.deltaTime);
         }
 
