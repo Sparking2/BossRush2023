@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6013587082875765897}
-  m_LocalRotation: {x: -0, y: 0.5875691, z: -0, w: 0.809174}
+  m_LocalRotation: {x: 0, y: 0.5875663, z: 0, w: 0.809176}
   m_LocalPosition: {x: -14.14, y: 5.01, z: 2.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   velocity: 150
   maxLife: 3
   maxBonceCount: 10
+  hitPrefab: {fileID: 5575681630635135047, guid: 999917e1afa6d9042a28b7440b2ebf2a, type: 3}
 --- !u!135 &6013587082875765898
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.06
+  m_Radius: 0.256486
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6013587082875765902
 Rigidbody:
@@ -101,7 +102,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 55e164aa53cfb354eaee1d059bf464c6, type: 2}
+  - {fileID: 2100000, guid: 5af75f7d9a57db547990e8cbd7dfc462, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,13 +126,13 @@ TrailRenderer:
   m_Time: 0.1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.6
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.094484776
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -140,7 +141,7 @@ TrailRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -153,14 +154,14 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 0.43137255}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
+      ctime0: 386
       ctime1: 65535
       ctime2: 0
       ctime3: 0
@@ -180,7 +181,7 @@ TrailRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 6
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -215,7 +216,7 @@ Transform:
   m_GameObject: {fileID: 6013587084115671954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.5, y: 0.05092025, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6013587082875765901}
@@ -249,7 +250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1d18c9f03d83b134bbe9a916ecd4e07e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

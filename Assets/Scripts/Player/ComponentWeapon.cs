@@ -35,6 +35,8 @@ namespace Player
         [SerializeField]
         private ProjectileType currentAmmoType = ProjectileType.Bullet;
 
+        [SerializeField] private ParticleSystem shootParticles;
+
         private ComponentInput _input;
         private ComponentTarget _target;
         private bool _wasFiring;
@@ -100,6 +102,7 @@ namespace Player
             SoundManager.Instance.PlaySound(SoundType.Sfx,"0");
             
             _wasFiring = true;
+            shootParticles.Play();
             _currentCooldown = 0;
             Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.identity);
@@ -111,6 +114,7 @@ namespace Player
         {
             if ( !IsAllowedToShoot(isFiring) ) return;
             _wasFiring = true;
+            shootParticles.Play();
             _currentCooldown = -fireCooldown;
             StartCoroutine(nameof( FireBurst ));
         }
@@ -119,6 +123,7 @@ namespace Player
         {
             if ( !IsAllowedToShoot(isFiring) ) return;
             _wasFiring = true;
+            shootParticles.Play();
             _currentCooldown = -fireCooldown * waveShotCooldownMultiplier;
 
             for ( var i = 0; i < 5; i++ )
@@ -136,6 +141,7 @@ namespace Player
         {
             if ( !isFiring ) return;
             _currentCooldown = 0;
+            shootParticles.Play();
             Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
             bullet.Fire(CalculateBulletDirection());

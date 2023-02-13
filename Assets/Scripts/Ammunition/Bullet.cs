@@ -8,7 +8,7 @@ namespace Ammunition
     {
         private Rigidbody _rigidbody;
         private TrailRenderer _trailRenderer;
-
+        [SerializeField] private GameObject hitPrefab;
         [SerializeField]
         private float velocity = 1;
 
@@ -45,13 +45,13 @@ namespace Ammunition
 
         public override void OnImpact( Collision impactedObject )
         {
-            Debug.Log(impactedObject.gameObject.name);
+
             if ( impactedObject.gameObject.TryGetComponent(out ComponentHealth healthComponent) )
             {
      
-                healthComponent.ReduceHealth(5.0f);
+                healthComponent.ReduceHealth(WeaponInfo.normalBulletDamage);
             }
-
+            if (hitPrefab) Instantiate(hitPrefab, transform.position, Quaternion.identity);
             Reset();
         }
 

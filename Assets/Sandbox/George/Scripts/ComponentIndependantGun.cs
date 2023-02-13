@@ -9,7 +9,7 @@ public class ComponentIndependantGun : MonoBehaviour
 {
     [SerializeField] private bool gunActive;
     [SerializeField] private bool isBerseker;
-    private float shootDelay;
+    [SerializeField] private float shootDelay = 0.5f;
     private float shootCounter;
     [SerializeField] private ProjectileType projectilePrefab;
     [SerializeField] private ProjectileType specialProjectilePrefab;
@@ -36,7 +36,7 @@ public class ComponentIndependantGun : MonoBehaviour
         else
         {
             shootCounter = shootDelay;
-            if (isBerseker) ShootProjectile(projectilePrefab);
+            if (!isBerseker) ShootProjectile(projectilePrefab);
             else ShootProjectile(specialProjectilePrefab);
         }
     }
@@ -45,7 +45,7 @@ public class ComponentIndependantGun : MonoBehaviour
     private void ShootProjectile(ProjectileType _projectileType)
     {
         Projectile bullet = PoolManager.GetPool(_projectileType).Get();
-        bullet.transform.SetPositionAndRotation(transform.position, Quaternion.LookRotation(transform.forward));
+        bullet.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         bullet.Fire(transform.forward);
     }
 }

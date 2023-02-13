@@ -18,12 +18,6 @@ public class BossStatsScriptables : ScriptableObject
 
     public float bersekerWait = .5f;
 
-    [Header("Chase state parameters: "), Space(10)]
-    public float chaseTime;
-    public float chaseSpeed;
-    public float berseckerSpeed;
-    public float attackTriggerRadius;
-
     public float GetWanderRadius()
     {
         return Random.Range(minWanderRadius, maxWanderRadius);
