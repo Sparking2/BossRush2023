@@ -9,6 +9,19 @@ namespace Player
 {
     public class ComponentWeapon : MonoBehaviour
     {
+        public delegate void FireModeChange( FireMode mode );
+
+        public delegate void FireModeRemainingChange( ushort remaining );
+        public delegate void AmmoTypeChange( ProjectileType mode );
+
+        public delegate void AmmoRemainingChange( ushort num );
+
+        
+        public FireModeChange OnFireModeChanged;
+        public FireModeRemainingChange OnFireModeRemainingChange;
+        public AmmoTypeChange OnAmmoTypeChanged;
+        public AmmoRemainingChange OnAmmoRemainingChange;
+        
         [SerializeField]
         private Transform weaponBarrelEnd;
         [SerializeField]
@@ -29,7 +42,9 @@ namespace Player
         private bool _wasFiring;
         private float _currentCooldown;
 
-
+        private int _remainingFireModeCharges;
+        private int _remainingAmmoCharges;
+        
         private void Start()
         {
             if ( !TryGetComponent(out _input) )
@@ -39,6 +54,9 @@ namespace Player
 
             if ( !TryGetComponent(out _target) )
                 throw new Exception($"Can't find {_target.GetType().Name} in player");
+            
+            ChangeAmmoType(ProjectileType.Bullet);
+            ChangeFireMode(FireMode.Single);
         }
 
         private void Update()
@@ -81,12 +99,15 @@ namespace Player
         {
             if ( !IsAllowedToShoot(isFiring) ) return;
 
+            SoundManager.Instance.PlaySound(SoundType.Sfx,"0");
+            
             _wasFiring = true;
             shootParticles.Play();
             _currentCooldown = 0;
             Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.identity);
             bullet.Fire(CalculateBulletDirection());
+            ReduceCharges();
         }
 
         private void HandleBurstShot( in bool isFiring )
@@ -112,6 +133,7 @@ namespace Player
                     UnityEngine.Random.Range(-0.0625f, 0.0625f), UnityEngine.Random.Range(-0.0625f, 0.0625f));
                 bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, Quaternion.identity);
                 bullet.Fire(CalculateBulletDirection() + randomOffset);
+                ReduceCharges();
             }
         }
 
@@ -123,6 +145,7 @@ namespace Player
             Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();
             bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
             bullet.Fire(CalculateBulletDirection());
+            ReduceCharges();
         }
 
         private bool IsAllowedToShoot( in bool isFiring )
@@ -143,11 +166,17 @@ namespace Player
         public void ChangeFireMode( FireMode targetMode )
         {
             currentFireMode = targetMode;
+            OnFireModeChanged?.Invoke(targetMode);
+            _remainingFireModeCharges = targetMode != FireMode.Single ? 10 : 999;
+            OnFireModeRemainingChange?.Invoke((ushort)_remainingFireModeCharges);
         }
 
         public void ChangeAmmoType( ProjectileType targetProjectile )
         {
             currentAmmoType = targetProjectile;
+            OnAmmoTypeChanged?.Invoke(targetProjectile);
+            _remainingAmmoCharges = targetProjectile != ProjectileType.Bullet ? 10 : 999;
+            OnAmmoRemainingChange?.Invoke((ushort)_remainingAmmoCharges);
         }
 
         private Vector3 CalculateBulletDirection()
@@ -166,6 +195,30 @@ namespace Player
                 bullet.transform.SetPositionAndRotation(weaponBarrelEnd.position, transform.rotation);
                 bullet.Fire(CalculateBulletDirection());
                 yield return new WaitForSeconds(burstShotSpawnCooldown);
+                ReduceCharges();
+            }
+        }
+
+        private void ReduceCharges()
+        {
+            if ( currentFireMode != FireMode.Single )
+            {
+                _remainingFireModeCharges -= 1;
+                OnFireModeRemainingChange?.Invoke((ushort)_remainingFireModeCharges);
+                if ( _remainingFireModeCharges <= 0 )
+                {
+                    ChangeFireMode(FireMode.Single);
+                }
+            }
+
+            if ( currentAmmoType != ProjectileType.Bullet )
+            {
+                _remainingAmmoCharges -= 1;
+                OnAmmoRemainingChange?.Invoke((ushort)_remainingAmmoCharges);
+                if ( _remainingAmmoCharges <= 0 )
+                {
+                    ChangeAmmoType(ProjectileType.Bullet);
+                }
             }
         }
     }
