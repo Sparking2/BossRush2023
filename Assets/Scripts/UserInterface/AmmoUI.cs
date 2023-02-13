@@ -13,7 +13,15 @@ namespace UserInterface
         private Image ammoTypeIcon;
         [SerializeField]
         private TMP_Text ammoCountLabel;
-
+        
+        /// <summary>
+        /// 0 bullet
+        /// 1 bouncing
+        /// 2 mine
+        /// </summary>
+        [SerializeField]
+        private Sprite[] ammoSpriteArray;
+        
         private ComponentWeapon _weapon;
         
         private void Start()
@@ -37,17 +45,17 @@ namespace UserInterface
             switch ( type )
             {
                 case ProjectileType.Bullet:
-                    ammoTypeIcon.color = Color.yellow;
+                    ammoTypeIcon.sprite = ammoSpriteArray[0];
                     break;
                 case ProjectileType.HighBounce:
-                    ammoTypeIcon.color = Color.green;
+                    ammoTypeIcon.sprite = ammoSpriteArray[1];
                     break;
                 case ProjectileType.Mine:
-                    ammoTypeIcon.color = Color.blue;
+                    ammoTypeIcon.sprite = ammoSpriteArray[2];
                     break;
                 case ProjectileType.Boss1:
                 case ProjectileType.Etc:
-                    ammoTypeIcon.color = Color.gray;
+                    ammoTypeIcon.sprite = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof( type ), type, null);

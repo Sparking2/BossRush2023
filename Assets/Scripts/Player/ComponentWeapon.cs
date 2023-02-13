@@ -52,6 +52,9 @@ namespace Player
 
             if ( !TryGetComponent(out _target) )
                 throw new Exception($"Can't find {_target.GetType().Name} in player");
+            
+            ChangeAmmoType(ProjectileType.Bullet);
+            ChangeFireMode(FireMode.Single);
         }
 
         private void Update()
@@ -94,6 +97,8 @@ namespace Player
         {
             if ( !IsAllowedToShoot(isFiring) ) return;
 
+            SoundManager.Instance.PlaySound(SoundType.Sfx,"0");
+            
             _wasFiring = true;
             _currentCooldown = 0;
             Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();

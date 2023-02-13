@@ -16,6 +16,14 @@ namespace UserInterface
         
         private ComponentWeapon _weapon;
         
+        /// <summary>
+        /// 0 Single
+        /// 1 TripleShot
+        /// 2 Auto
+        /// </summary>
+        [SerializeField]
+        private Sprite[] fireModeSpriteArray;
+        
         private void Start()
         {
             _weapon = FindObjectOfType<ComponentWeapon>();
@@ -39,16 +47,16 @@ namespace UserInterface
             switch ( fireMode )
             {
                 case FireMode.Single:
-                    fireModeIcon.color = Color.red;
+                    fireModeIcon.sprite = fireModeSpriteArray[0];
                 break;
                 case FireMode.Burst:
-                    fireModeIcon.color = Color.green;
+                    fireModeIcon.sprite = fireModeSpriteArray[1];
                     break;
                 case FireMode.Wave:
-                    fireModeIcon.color = Color.blue;
+                    fireModeIcon.sprite = null;
                     break;
                 case FireMode.Auto:
-                    fireModeIcon.color = Color.yellow;
+                    fireModeIcon.sprite = fireModeSpriteArray[2];
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof( fireMode ), fireMode, null);
