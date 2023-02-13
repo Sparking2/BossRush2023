@@ -8,7 +8,7 @@ public class ComponentHealthMaterialController : MonoBehaviour
 
     private void Awake()
     {
-        material = GetComponent<Renderer>().material;
+        material = GetComponent<Renderer>().materials[1];
 
     }
 

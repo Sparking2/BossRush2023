@@ -11,6 +11,12 @@ namespace Weapon
         [SerializeField]
         private bool removeOnContact;
 
+        public void SetProjectileType(int _type)
+        {
+            newProjectileType = (ProjectileType)_type;
+            removeOnContact = true;
+        }
+
         private void OnTriggerEnter( Collider other )
         {
             if ( !other.tag.Equals("Player") ) return;

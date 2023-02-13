@@ -17,7 +17,7 @@ namespace Ammunition
         {
             if ( !other.TryGetComponent(out ComponentHealth hp) ) return;
             
-            hp.ReduceHealth(1.0f);
+            hp.ReduceHealth(WeaponInfo.mineBulletDamage);
             // TODO: VFX?
             _mineParent.Reset();
         }

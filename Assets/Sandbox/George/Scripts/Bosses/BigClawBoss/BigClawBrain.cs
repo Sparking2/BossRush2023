@@ -24,6 +24,7 @@ public class BigClawBrain : EntityBrainBase
     [SerializeField] private float tackleSpeed;
     [SerializeField] private float tackleWaitTime;
     [SerializeField] private float smallWaitTime;
+    [SerializeField] private ParticleSystem berserkerTackleParticles;
     [Header("Cannon ball attack settings: "),Space(10)]
     [SerializeField] private bool onAnimationTransition;
     [SerializeField] private BigClawFeet bigBall;
@@ -36,6 +37,8 @@ public class BigClawBrain : EntityBrainBase
     private WaitForSeconds tackleWait;
     private WaitForSeconds smallWait;
 
+    [SerializeField] private ComponentLookAtTarget gunComponentLook;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, attackRange);
@@ -47,7 +50,7 @@ public class BigClawBrain : EntityBrainBase
         tackleWait = new WaitForSeconds(tackleWaitTime);
         smallWait = new WaitForSeconds(smallWaitTime);
         componentLookAtTarget = GetComponent<ComponentLookAtTarget>();
-        componentLookAtTarget.SetPlayerTransform(playerTransform);
+        componentLookAtTarget.SetPlayerTransform(playerTargetTransform);
         componentLookAtTarget.canLookAtTarget = false;
     }
 
@@ -55,8 +58,25 @@ public class BigClawBrain : EntityBrainBase
     {
         dangerLineRenderer.transform.SetParent(null);
         dangerLineRenderer.enabled = false;
-        
+
+        gunComponentLook.SetPlayerTransform(playerTargetTransform);
+
+        animator.Play("Introduction");
     }
+
+    public override void Update()
+    {
+        base.Update();
+        //if (state != EntityState.idle) return;
+        //PerformAction();
+    }
+
+    public override void EnterBersekerMode()
+    {
+        base.EnterBersekerMode();
+        if (dangerLineRenderer.enabled) dangerLineRenderer.enabled = false;
+    }
+
 
     public override void OnUpdate()
     {
@@ -65,14 +85,16 @@ public class BigClawBrain : EntityBrainBase
 
     public void SetDangerLine()
     {
-        if (state != EntityState.channeling) return;
+        if (state != EntityState.channeling)  return;
         if (dangerLineRenderer.transform.parent) dangerLineRenderer.transform.SetParent(null);
         RaycastHit hit;
         dangerLineRenderer.SetPosition(0, linePivot.position);
-        if (Physics.Raycast(linePivot.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, wallMask))
-        {
-            dangerLineRenderer.SetPosition(1, hit.point);
-        }
+        //if (Physics.Raycast(linePivot.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, wallMask))
+        //{
+        //    dangerLineRenderer.SetPosition(1, hit.point);
+        //}
+        Vector3 dangerPos = new Vector3(playerTargetTransform.position.x, transform.position.y, playerTargetTransform.position.z);
+        dangerLineRenderer.SetPosition(1, dangerPos);
     }
     private void SetLookComponent(bool _state) 
     {
@@ -91,33 +113,30 @@ public class BigClawBrain : EntityBrainBase
     }
     public override void PerformAction()
     {
-        int atk = Random.Range(0, 6);
-        atk = 5;
+        int atk = Random.Range(0, 5);
+        //atk = 5;
+        
+        state = EntityState.attacking;
         switch (atk)
         {
             case 0:
                 StartCoroutine(MeleeAttackPattern());
                 break;
             case 1:
-                StartCoroutine(RangedAttackPattern());
-                break;
-            case 2:
                 StartCoroutine(TackleAttackPattern());
                 break;
+            case 2:
+                StartCoroutine(RangedAttackPattern());
+                break;
             case 3:
-                StartCoroutine(CannonBallAttackPattern());
+                StartCoroutine(SecundaryRangedAttack());
                 break;
             case 4:
-                StartCoroutine(MoveToRandomPoint());
-                break;
-            case 5:
-                StartCoroutine(SecundaryRangedAttack());
+                if(isBerseker) StartCoroutine(CannonBallAttackPattern());
+                else StartCoroutine(MeleeAttackPattern());
                 break;
         }
     }
-
-
-
     public void LaunchProjectile(ProjectileType _projectileType)
     {
         if (isBerseker)
@@ -132,7 +151,7 @@ public class BigClawBrain : EntityBrainBase
         {
             Projectile bullet = PoolManager.GetPool(_projectileType).Get();
             bullet.transform.SetPositionAndRotation(shootpoints[1].position, Quaternion.LookRotation(shootpoints[1].forward));
-            bullet.Fire(transform.forward);
+            bullet.Fire(shootpoints[1].forward);
         }
 
 
@@ -148,11 +167,9 @@ public class BigClawBrain : EntityBrainBase
     //    specialProjectilePrefab
 
     //}
-
-
     private IEnumerator MeleeAttackPattern()
     {
-        state = EntityState.attacking;
+        yield return smallWait;
         animator.SetTrigger("chaseStart");
         agent.speed = isBerseker ? chaseSpeed + 15.0f:chaseSpeed;
         onAnimationTransition = false;
@@ -161,68 +178,55 @@ public class BigClawBrain : EntityBrainBase
         agent.SetDestination(targetPoint);
         yield return waitUntilOnTriggerPoint;
         agent.SetDestination(transform.position);
-        state = EntityState.attacking;
         animator.SetTrigger("chaseAtk");
-        if (isBerseker)
-        {
-
-        } 
     }
 
-    private IEnumerator SecundaryRangedAttack()
+    private IEnumerator TackleAttackPattern()
     {
-        state = EntityState.attacking;
+        yield return smallWait;
+        onAnimationTransition = false;
+        animator.Play("TackleStart");
+        state = EntityState.channeling;
+        yield return smallWait;
+        dangerLineRenderer.enabled = true;
+        yield return waitUntilAnimationFinish;
 
-        animator.SetTrigger("rangedAtk2");
-        yield return null;
+        targetPoint = playerPos;
+        targetPoint.y = transform.position.y;
+
+        agent.acceleration = 75.0f;
+        agent.speed = isBerseker? tackleSpeed + 5.0f:tackleSpeed;
+
+        agent.SetDestination(targetPoint);
+
+        if (isBerseker) berserkerTackleParticles.Play();
+
+        state = EntityState.attacking;
+        yield return waitUntilOnTriggerPoint;
+        animator.SetTrigger("tackleAtk");
+        agent.SetDestination(transform.position);
+        dangerLineRenderer.enabled = false;
+        berserkerTackleParticles.Stop();
     }
 
     private IEnumerator RangedAttackPattern()
     {
-        state = EntityState.attacking;
+        yield return smallWait;
         SetLookComponent(true);
         yield return new WaitForSeconds(.75f);
         SetLookComponent(false);
         animator.SetTrigger("rangedAtk1");
     }
-
-    private IEnumerator TackleAttackPattern()
+    private IEnumerator SecundaryRangedAttack()
     {
-        state = EntityState.attacking;
-        animator.SetBool("tackleEnd", false);
-        animator.SetTrigger("tackleStart");
-
-        agent.speed = tackleSpeed;
-        agent.acceleration = 75f;
         yield return smallWait;
-        int totalTackles = 3;
-        dangerLineRenderer.enabled = true;
-        componentLookAtTarget.SetLookSpeed(15.0f);
-        while (totalTackles > 0)
-        {
-            SetLookComponent(true);
-            state = EntityState.channeling;
-            // Channel particles and line renderer effect here
-            yield return tackleWait;
-            SetLookComponent(false);
-            targetPoint = playerTransform.position;
-            agent.SetDestination(targetPoint);
-            state = EntityState.attacking;
-            yield return waitUntilOnTriggerPoint;
-            agent.SetDestination(transform.position);
-            animator.SetTrigger("tackleAtk");
-            targetPoint = playerTransform.position;
-            totalTackles--;
-            yield return smallWait;
-        }
-        componentLookAtTarget.RestoreLookSpeed();
-        dangerLineRenderer.enabled = false;
-        animator.SetBool("tackleEnd",true);
-        OnActionFinished();
+        animator.SetTrigger("rangedAtk2");
+        yield return null;
     }
 
     private IEnumerator CannonBallAttackPattern()
     {
+        yield return smallWait;
         state = EntityState.channeling;
         animator.SetTrigger("cannonAtk");
         componentLookAtTarget.SetLookSpeed(15.0f);

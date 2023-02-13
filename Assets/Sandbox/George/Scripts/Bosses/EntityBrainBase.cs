@@ -5,31 +5,43 @@ using UnityEngine.AI;
 
 public abstract class EntityBrainBase : MonoBehaviour
 {
-    public BossStatsScriptables bossStats;
+    [Header("Boss base paremeters: ") ,Space(10)]
+    public EntityState state = EntityState.idle;
+    public int maxHealth;
+    public float idleMovementSpeed;
     public bool isBerseker;
-    [SerializeField] private float restingTime;
+    public float restingTime;
+
+
+    [HideInInspector] public float attackTimer;
     [SerializeField] private bool hasMovingAnimation;
     [HideInInspector] public bool canDoAction = true;
     private float originalAcceleration;
-    public EntityState state = EntityState.idle;
-    private float thinkTimer;
 
+    
     [HideInInspector] public Vector3 targetPoint;
     [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public Transform playerTargetTransform;
     [HideInInspector] public Vector3 playerPos;
-    public WaitUntil waitUntilIsOnTarget;
+    [HideInInspector] public WaitUntil waitUntilIsOnTarget;
 
     private ComponentHealth componentHealth;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Animator animator;
+
+    [SerializeField] private ParticleSystem berserkerChannelParticles;
+    [SerializeField] private ParticleSystem berserkerBurstParticles;
+
+    [SerializeField] private ParticleSystem deathParticles;
+    [SerializeField] private ParticleSystem deathExplotion;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         componentHealth = GetComponent<ComponentHealth>();
         agent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        if (bossStats) componentHealth.SetHealth(bossStats.maxHealth,this);
-
+        playerTargetTransform = playerTransform.Find("PlayerTarget").GetComponent<Transform>();
 
         waitUntilIsOnTarget = new WaitUntil(() => HandleTargetCheck(targetPoint));
 
@@ -38,62 +50,57 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     private void Start()
     {
-        thinkTimer = bossStats.idleTime;
         targetPoint = playerTransform.position;
         originalAcceleration = agent.acceleration;
         canDoAction = true;
         SetBaseAgentSettings();
+        if (componentHealth) componentHealth.SetHealth(maxHealth, this);
+
+
         OnStart();
+
+        //PerformAction();
     }
 
     public void SetBaseAgentSettings()
     {
-        if (!bossStats) return;
-        agent.speed = bossStats.idleMovementSpeed;
+        agent.speed = idleMovementSpeed;
         agent.acceleration = originalAcceleration;
     }
 
-    private void Update()
+    public virtual void Update() // Basic profile for any boss, can be overrriten to do a better one
     {
         playerPos = new Vector3(playerTransform.position.x, playerTransform.position.y + 1.5f, playerTransform.position.z);
         OnUpdate();
-        if (state != EntityState.idle) return;
-        if (thinkTimer > 0f) thinkTimer -= Time.deltaTime;
-        else 
-        {
-            if (canDoAction) PerformAction();
-            else
-            {
-                StartCoroutine(MoveToRandomPoint());
-                thinkTimer = bossStats.GetWaitBeforeWander(isBerseker);
-            }
-        } 
+        //if (state != EntityState.idle) return;
+        //if (thinkTimer > 0f) thinkTimer -= Time.deltaTime;
+        //else 
+        //{
+        //    if (canDoAction) PerformAction();
+        //    else
+        //    {
+        //        StartCoroutine(MoveToRandomPoint());
+        //        thinkTimer = bossStats.GetWaitBeforeWander(isBerseker);
+        //    }
+        //} 
     }
 
     public void OnActionFinished()
     {
-        state = EntityState.idle;
-        thinkTimer = isBerseker? .5f: bossStats.idleTime;
-        canDoAction = false;
         SetBaseAgentSettings();
-        Invoke("RestoreAction", isBerseker? restingTime/2:restingTime);
-    }
-
-    private void RestoreAction()
-    {
-        canDoAction = true;
+        OnRestingStart();
+        componentHealth.SetVulnerability(false);
     }
  
     public IEnumerator MoveToRandomPoint()
     {
         state = EntityState.moving;
-        targetPoint = CustomTools.GetRandomPointOnMesh(bossStats.GetWanderRadius(),Vector3.zero);
+        targetPoint = CustomTools.GetRandomPointOnMesh(15f,Vector3.zero);
         if (hasMovingAnimation) animator.SetBool("isMoving", true);
         agent.SetDestination(targetPoint);
         yield return waitUntilIsOnTarget;
         animator.SetBool("isMoving", false);
-        state = EntityState.idle;
-        thinkTimer = bossStats.idleTime / 2;
+        OnActionFinished();
     }
 
     private bool HandleTargetCheck(Vector3 target)
@@ -105,7 +112,55 @@ public abstract class EntityBrainBase : MonoBehaviour
     {
         if (isBerseker) return;
         isBerseker = true;
-        restingTime /= 2;
+        StopAllCoroutines();
+        CancelInvoke("OnRestingEnd");
+        agent.SetDestination(transform.position);
+        state = EntityState.idle;
+        componentHealth.SetVulnerability(true);
+
+        animator.Play("BersekerEnter");
+    }
+
+    private void OnRestingStart()
+    {
+        state = EntityState.resting;     
+        Invoke("OnRestingEnd", restingTime);
+    }
+
+    private void OnRestingEnd()
+    {
+        state = EntityState.idle;
+        PerformAction();
+    }
+
+    public void PlayBerserkerChannelVFX()
+    {
+        berserkerChannelParticles.Play();
+    }
+
+    public void PlayBersekerBurstVFX()
+    {
+        berserkerBurstParticles.Play();
+        berserkerChannelParticles.Stop();
+    }
+
+    public void OnDead()
+    {
+        state = EntityState.dead;
+        CancelInvoke("OnRestingEnd");
+        agent.SetDestination(transform.position);
+        StopAllCoroutines();
+        StartCoroutine(DeathAnimation());
+    }
+
+    private IEnumerator DeathAnimation()
+    {
+        animator.Play("Death");
+        deathParticles.Play();
+        yield return new WaitForSeconds(3.5f);
+        deathExplotion.Play();
+        yield return new WaitForSeconds(.45f);
+        gameObject.SetActive(false);
     }
 
     #region Abstracts methods
@@ -116,5 +171,5 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     #endregion
     
-    public enum EntityState { idle, channeling, attacking,moving}
+    public enum EntityState { idle, channeling, attacking,moving,resting,dead}
 }
