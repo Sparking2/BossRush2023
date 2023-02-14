@@ -92,7 +92,7 @@ public abstract class EntityBrainBase : MonoBehaviour
         componentHealth.SetVulnerability(false);
     }
  
-    public IEnumerator MoveToRandomPoint()
+    public virtual IEnumerator MoveToRandomPoint()
     {
         state = EntityState.moving;
         targetPoint = CustomTools.GetRandomPointOnMesh(15f,Vector3.zero);

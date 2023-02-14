@@ -19,6 +19,11 @@ public class ComponentRotator : MonoBehaviour
         StartCoroutine(SmoothSpeedChange(_newRotation, _rotationChangeSpeed)); 
     }
 
+    public void SetRotationSpeed(float _newRotation)
+    {
+        rotationSpeed = _newRotation;
+    }
+
     public void ReturnRotationToOriginal()
     {
         StartCoroutine(SmoothSpeedChange(originalRotationSpeed, 550f));

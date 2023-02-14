@@ -8,6 +8,8 @@
         Boss1,
         BigClawBasicProjectile,
         BigClawSpecialProjectile,
+        BoomerangBotBasicProjectile,
+        BoomerangBotSpecialProjectile,
         FinalBossBasicProjectile,
         FinalBossExplotionAttack,
         FallingBlock,

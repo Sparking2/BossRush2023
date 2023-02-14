@@ -30,7 +30,7 @@ public class BigClawBrain : EntityBrainBase
     [SerializeField] private BigClawFeet bigBall;
 
 
-    private ComponentLookAtTarget componentLookAtTarget;
+    [SerializeField] private ComponentLookAtTarget componentLookAtTarget;
 
     private WaitUntil waitUntilOnTriggerPoint;
     private WaitUntil waitUntilAnimationFinish;
@@ -50,7 +50,7 @@ public class BigClawBrain : EntityBrainBase
         tackleWait = new WaitForSeconds(tackleWaitTime);
         smallWait = new WaitForSeconds(smallWaitTime);
         componentLookAtTarget = GetComponent<ComponentLookAtTarget>();
-        componentLookAtTarget.SetPlayerTransform(playerTargetTransform);
+    
         componentLookAtTarget.canLookAtTarget = false;
     }
 
@@ -58,7 +58,7 @@ public class BigClawBrain : EntityBrainBase
     {
         dangerLineRenderer.transform.SetParent(null);
         dangerLineRenderer.enabled = false;
-
+        componentLookAtTarget.SetPlayerTransform(playerTargetTransform);
         gunComponentLook.SetPlayerTransform(playerTargetTransform);
 
         animator.Play("Introduction");

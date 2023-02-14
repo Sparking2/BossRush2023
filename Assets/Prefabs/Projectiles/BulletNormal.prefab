@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPrefab: {fileID: 5575681630635135047, guid: 999917e1afa6d9042a28b7440b2ebf2a, type: 3}
   velocity: 100
-  maxLife: 1
+  maxLife: 3
 --- !u!135 &3602729561352583152
 SphereCollider:
   m_ObjectHideFlags: 0
