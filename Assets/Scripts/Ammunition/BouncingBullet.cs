@@ -17,6 +17,7 @@ namespace Ammunition
         public float maxLife = 2.0f;
         [SerializeField]
         private ushort maxBonceCount = 10;
+        [SerializeField] private GameObject hitPrefab;
 
         private void Awake()
         {
@@ -51,10 +52,14 @@ namespace Ammunition
         {
             _currentLife = 0.0f;
             _currentBounce++;
-            if ( TryGetComponent(out ComponentHealth hp) )
+
+            if (impactedObject.gameObject.TryGetComponent(out ComponentHealth hp) )
             {
-                hp.ReduceHealth(1.0f);
+                Debug.Log("hit something" + hp.name);
+                hp.ReduceHealth(WeaponInfo.bouncyBulletDamage);
             }
+
+            if (hitPrefab) Instantiate(hitPrefab, transform.position, Quaternion.identity);
 
             if ( _currentBounce > maxBonceCount )
                 Reset();

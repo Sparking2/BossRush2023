@@ -2,9 +2,9 @@
 {
        public enum FireMode
        {
-              Single,
-              Burst,
-              Wave,
-              Auto,
+              Single = 0,
+              Burst = 1,
+              Wave = 2,
+              Auto = 3,
        }
 }

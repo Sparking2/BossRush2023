@@ -5,14 +5,23 @@ public class ComponentHealth : MonoBehaviour
 
     [Header("Health component: "), Space(10)]
     private float maxHealth;
+    [SerializeField] private bool isInvincible;
     [SerializeField] private float health;
     private float bersekerTreshold;
     private ComponentHealthMaterialController[] healthMaterials;
     private EntityBrainBase m_bossBrain;
-
+    private ComponentShieldController componentShield;
+    private ComponentHitFeedback hitFeedback;
     private void Awake()
     {
+        componentShield = GetComponentInChildren<ComponentShieldController>();
         healthMaterials = GetComponentsInChildren<ComponentHealthMaterialController>();
+        hitFeedback = GetComponentInChildren<ComponentHitFeedback>();
+    }
+
+    public void SetVulnerability(bool _vulnerable)
+    {
+        isInvincible = _vulnerable;
     }
 
     public void SetHealth(float _health, EntityBrainBase brain)
@@ -32,7 +41,19 @@ public class ComponentHealth : MonoBehaviour
 
     public void ReduceHealth(float _damage)
     {
+        if (componentShield)
+            if (componentShield.shieldActive) return;
+        if (isInvincible) return;
+        if (health <= 0)
+        {
+            m_bossBrain.OnDead();
+            return;
+        }
+
+        if (hitFeedback) hitFeedback.PerformHitFeedback();
         health -= _damage;
+        Debug.Log("GotHit");
+
         if(healthMaterials.Length > 0)
         {
             foreach (var mat in healthMaterials)

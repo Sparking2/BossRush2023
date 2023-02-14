@@ -11,6 +11,12 @@ namespace Weapon
         [SerializeField]
         private bool removeOnContact;
 
+        public void SetFireMode(int _fireMode)
+        {
+            newFireMode = (FireMode)_fireMode;
+            removeOnContact = true;
+        }
+
         private void OnTriggerEnter( Collider other )
         {
             if ( !other.tag.Equals("Player") ) return;

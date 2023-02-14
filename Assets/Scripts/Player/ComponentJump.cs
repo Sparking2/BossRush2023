@@ -13,18 +13,18 @@ namespace Player
         [SerializeField]
         private float jumpHeight = 5.0f;
         private const float GravityValue = -9.81f;
+        private Animator _animator;
         [SerializeField]
         private float jumpUpwardsAccelerator = 1.0f;
         [SerializeField]
         private float jumpDownwardsAccelerator = 1.0f;
-        
+
         private void Start()
         {
             if ( !TryGetComponent(out _input) )
                 throw new Exception($"Can't find {_input.GetType().Name} in player");
             if ( !TryGetComponent(out _characterController) )
                 throw new Exception($"Can't find {_characterController.GetType().Name} in player");
-
             _input.InputEventJump += OnJump;
         }
 

@@ -33,7 +33,7 @@ public class BoomerBotBrain : EntityBrainBase
         boomerang.SetBoomerangBoss(this);
         boomerang.SetBersekerMode(isBerseker);
         componentLookAtTarget.SetPlayerTransform(playerTransform);
-        waitTime = bossStats.GetWaitBeforeWander(isBerseker);
+        //waitTime = bossStats.GetWaitBeforeWander(isBerseker);
     }
 
     private void SetWeaponStats(float min,float max, ProjectileType projectile)
@@ -55,7 +55,7 @@ public class BoomerBotBrain : EntityBrainBase
             {
                 targetPoint = CustomTools.GetRandomPointOnMesh(15f, transform.position);
                 agent.SetDestination(targetPoint);
-                waitTime = bossStats.GetWaitBeforeWander(isBerseker);
+               // waitTime = bossStats.GetWaitBeforeWander(isBerseker);
             }
         }
 
