@@ -62,9 +62,13 @@ public class ComponentHealth : MonoBehaviour
             }
         }
 
-        if(health <= bersekerTreshold)
+        if (m_bossBrain)
         {
-            m_bossBrain.EnterBersekerMode();
+            if (health <= bersekerTreshold)
+            {
+                m_bossBrain.EnterBersekerMode();
+            }
         }
+ 
     }
 }

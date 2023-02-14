@@ -14726,7 +14726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingSpeed: 10
   startingHeight: 37
-  finalHeight: 1.5
+  finalHeight: 2.75
   groundMask:
     serializedVersion: 2
     m_Bits: 64

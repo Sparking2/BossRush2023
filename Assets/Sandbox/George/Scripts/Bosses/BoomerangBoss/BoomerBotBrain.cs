@@ -69,6 +69,15 @@ public class BoomerBotBrain : EntityBrainBase
         StartCoroutine(MoveToRandomPoint());
     }
 
+    public void StartWeapons()
+    {
+        foreach (ComponentBossShooters _component in componentBosses)
+        {
+            _component.SetCanShoot(true);
+        }
+    }
+
+
     private void SetWeaponStats(float min,float max, ProjectileType projectile)
     {
         foreach (ComponentBossShooters _component in componentBosses)
@@ -81,11 +90,6 @@ public class BoomerBotBrain : EntityBrainBase
 
     public override void OnUpdate()
     {
-        if (agent.remainingDistance <= 0.3f)
-        {
-   
-        }
-
         HandleAiming();
     }
 

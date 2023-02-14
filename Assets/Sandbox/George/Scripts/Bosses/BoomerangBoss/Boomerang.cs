@@ -203,7 +203,7 @@ public class Boomerang : MonoBehaviour
 
     private IEnumerator BulletVortextAttack(bool _berseker) // In berseker mode there is a chance to shoot bigger projectiles
     {
-        target = new Vector3(0f,1.25f,0f);
+        target = new Vector3(0f,2.25f,0f);
         StartCoroutine(MoveToTarget(target, launchSpeed));
 
         yield return waitUntilArriveToTarget;
@@ -249,7 +249,7 @@ public class Boomerang : MonoBehaviour
     private IEnumerator ExplosiveAttack(Transform _target)
     {
         // In bersecker mode the boomerang explode and shoot multiple projectiles, also chases the player another time.
-        target = new Vector3(_target.position.x, _target.position.y + 1.5f, _target.position.z);
+        target = new Vector3(_target.position.x, _target.position.y + 2.5f, _target.position.z);
         float speed = initialMovementSpeed;
         while (speed > 0.0f)
         {
@@ -273,7 +273,7 @@ public class Boomerang : MonoBehaviour
     {
         // In bersecker mode the laser does a final laser burst in a bigger size
         target = _targetPosition;
-        target.y = 1.5f;
+        target.y = 2.5f;
         StartCoroutine(MoveToTarget(target, launchSpeed));
         yield return waitUntilArriveToTarget;
 
