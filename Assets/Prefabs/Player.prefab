@@ -474,7 +474,6 @@ Transform:
   - {fileID: 5911591491793902360}
   - {fileID: 7568981488392811498}
   - {fileID: 8528797191164151289}
-  - {fileID: 5769633956865042177}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -569,7 +568,7 @@ MonoBehaviour:
   waveShotCooldownMultiplier: 3
   currentFireMode: 0
   currentAmmoType: 0
-  shootParticles: {fileID: 8276603264305805112}
+  shootParticles: {fileID: 0}
 --- !u!114 &2707345655583567059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,8 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d2ad3ac6843634b889fcf30d4f35b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootParticles: {fileID: 8276603264305805112}
-  jumpParticles: {fileID: 397032526580619938}
+  shootParticles: {fileID: 0}
+  jumpParticles: {fileID: 0}
 --- !u!114 &8640018499473535756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,7 +650,7 @@ MonoBehaviour:
   - m_Rig: {fileID: 4571847488414727872}
     m_Active: 1
   - m_Rig: {fileID: 6539263519327486518}
-    m_Active: 0
+    m_Active: 1
   m_Effectors: []
 --- !u!114 &1295205646
 MonoBehaviour:
@@ -665,6 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 231ff21f3a0162c4ca977872101c2315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
   health: 100
 --- !u!114 &1295205647
 MonoBehaviour:
