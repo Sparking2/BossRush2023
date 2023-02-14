@@ -12,16 +12,17 @@ namespace Player
         public delegate void FireModeChange( FireMode mode );
 
         public delegate void FireModeRemainingChange( ushort remaining );
+
         public delegate void AmmoTypeChange( ProjectileType mode );
 
         public delegate void AmmoRemainingChange( ushort num );
 
-        
+
         public FireModeChange OnFireModeChanged;
         public FireModeRemainingChange OnFireModeRemainingChange;
         public AmmoTypeChange OnAmmoTypeChanged;
         public AmmoRemainingChange OnAmmoRemainingChange;
-        
+
         [SerializeField]
         private Transform weaponBarrelEnd;
         [SerializeField]
@@ -42,7 +43,7 @@ namespace Player
 
         private int _remainingFireModeCharges;
         private int _remainingAmmoCharges;
-        
+
         private void Start()
         {
             if ( !TryGetComponent(out _input) )
@@ -52,7 +53,7 @@ namespace Player
 
             if ( !TryGetComponent(out _target) )
                 throw new Exception($"Can't find {_target.GetType().Name} in player");
-            
+
             ChangeAmmoType(ProjectileType.Bullet);
             ChangeFireMode(FireMode.Single);
         }
@@ -97,8 +98,9 @@ namespace Player
         {
             if ( !IsAllowedToShoot(isFiring) ) return;
 
-            SoundManager.Instance.PlaySound(SoundType.Sfx,"0");
-            
+            if ( SoundManager.Instance )
+                SoundManager.Instance.PlaySound(SoundType.Sfx, "0");
+
             _wasFiring = true;
             _currentCooldown = 0;
             Projectile bullet = PoolManager.GetPool(currentAmmoType).Get();
@@ -162,7 +164,7 @@ namespace Player
             currentFireMode = targetMode;
             OnFireModeChanged?.Invoke(targetMode);
             _remainingFireModeCharges = targetMode != FireMode.Single ? 10 : 999;
-            OnFireModeRemainingChange?.Invoke((ushort)_remainingFireModeCharges);
+            OnFireModeRemainingChange?.Invoke((ushort) _remainingFireModeCharges);
         }
 
         public void ChangeAmmoType( ProjectileType targetProjectile )
@@ -170,7 +172,7 @@ namespace Player
             currentAmmoType = targetProjectile;
             OnAmmoTypeChanged?.Invoke(targetProjectile);
             _remainingAmmoCharges = targetProjectile != ProjectileType.Bullet ? 10 : 999;
-            OnAmmoRemainingChange?.Invoke((ushort)_remainingAmmoCharges);
+            OnAmmoRemainingChange?.Invoke((ushort) _remainingAmmoCharges);
         }
 
         private Vector3 CalculateBulletDirection()
@@ -198,7 +200,7 @@ namespace Player
             if ( currentFireMode != FireMode.Single )
             {
                 _remainingFireModeCharges -= 1;
-                OnFireModeRemainingChange?.Invoke((ushort)_remainingFireModeCharges);
+                OnFireModeRemainingChange?.Invoke((ushort) _remainingFireModeCharges);
                 if ( _remainingFireModeCharges <= 0 )
                 {
                     ChangeFireMode(FireMode.Single);
@@ -208,7 +210,7 @@ namespace Player
             if ( currentAmmoType != ProjectileType.Bullet )
             {
                 _remainingAmmoCharges -= 1;
-                OnAmmoRemainingChange?.Invoke((ushort)_remainingAmmoCharges);
+                OnAmmoRemainingChange?.Invoke((ushort) _remainingAmmoCharges);
                 if ( _remainingAmmoCharges <= 0 )
                 {
                     ChangeAmmoType(ProjectileType.Bullet);
