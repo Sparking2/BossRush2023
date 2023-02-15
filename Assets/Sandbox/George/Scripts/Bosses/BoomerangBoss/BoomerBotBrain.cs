@@ -196,7 +196,7 @@ public class BoomerBotBrain : EntityBrainBase
 
     public override void EnterBersekerMode()
     {
-        //base.EnterBersekerMode();
+        base.EnterBersekerMode();
         SetWeaponStats(minShootingCooldown/2, maxShootingCooldown/2, bossProjectilePrefab);
 
     }

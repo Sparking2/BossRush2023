@@ -30,6 +30,7 @@ public class FallingBlock : MonoBehaviour
     private IEnumerator FallingCorutine()
     {
         warningParticles.Play();
+        warningParticles.transform.position = new Vector3(warningParticles.transform.position.x, warningParticles.transform.position.y + 1.1f, warningParticles.transform.position.z);
         yield return fallDelay;
         warningParticles.Stop();
         fallingObject.SetActive(true);

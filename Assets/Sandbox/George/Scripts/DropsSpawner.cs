@@ -8,11 +8,6 @@ public class DropsSpawner : MonoBehaviour
     [SerializeField] private float spawnRadius;
     [SerializeField] private GameObject dropsPrefab;
 
-    private void Start()
-    {
-        SpawnDrop();
-    }
-
     private void SpawnDrop()
     {
         Vector3 spawnPos = transform.position + Random.insideUnitSphere * spawnRadius;
