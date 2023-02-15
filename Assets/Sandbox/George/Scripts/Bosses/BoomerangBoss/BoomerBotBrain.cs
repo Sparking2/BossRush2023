@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BoomerBotBrain : EntityBrainBase
 {
+    [Header("BoomerangBot settings: "),Space(10)]
     [SerializeField] private float minShootingCooldown;
     [SerializeField] private float maxShootingCooldown;
     [SerializeField] private ProjectileType bossProjectilePrefab;
@@ -18,12 +19,20 @@ public class BoomerBotBrain : EntityBrainBase
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private Transform aimHandle;
     [SerializeField] private ComponentLookAtTarget componentLookAtTarget;
+    [Header("Movement parameters: "), Space(10)]
+    [SerializeField] private float waitOnArrival;
+    [SerializeField] private float minSpeed, maxSpeed;
+    [SerializeField] private ComponentRotator wheelRotator;
     private float waitTime;
+
     private Vector3 launchPosition;
+    private bool doOnce;
+
     public override void OnAwake()
     {
         
     }
+
 
     public override void OnStart()
     {
@@ -33,8 +42,41 @@ public class BoomerBotBrain : EntityBrainBase
         boomerang.SetBoomerangBoss(this);
         boomerang.SetBersekerMode(isBerseker);
         componentLookAtTarget.SetPlayerTransform(playerTransform);
-        //waitTime = bossStats.GetWaitBeforeWander(isBerseker);
+        componentLookAtTarget.SetLookSpeed(0f);
+        waitTime = waitOnArrival;
+        targetPoint = CustomTools.GetRandomPointOnMesh(15f, transform.position);
+        animator.Play("Introduction");
     }
+
+    public override IEnumerator MoveToRandomPoint()
+    {
+        state = EntityState.moving;
+        agent.SetDestination(transform.position);
+        wheelRotator.SetRotationSpeed(0f);
+        yield return new WaitForSeconds(waitTime);
+        wheelRotator.SetRotationSpeed(250.0f);
+        targetPoint = CustomTools.GetRandomPointOnMesh(25.0f, Vector3.zero);
+        agent.speed = Random.Range(minSpeed, maxSpeed);
+        agent.SetDestination(targetPoint);
+        yield return waitUntilIsOnTarget;
+        OnMovementFinished();
+    }
+
+    private void OnMovementFinished()
+    {
+        state = EntityState.idle;
+        componentLookAtTarget.SetLookSpeed(25f);
+        StartCoroutine(MoveToRandomPoint());
+    }
+
+    public void StartWeapons()
+    {
+        foreach (ComponentBossShooters _component in componentBosses)
+        {
+            _component.SetCanShoot(true);
+        }
+    }
+
 
     private void SetWeaponStats(float min,float max, ProjectileType projectile)
     {
@@ -42,23 +84,12 @@ public class BoomerBotBrain : EntityBrainBase
         {
             _component.SetMinMaxCooldowns(min, max);
             _component.SetProjectile(projectile);
-            _component.SetCanShoot(true);
+            _component.SetCanShoot(false);
         }
     }
 
     public override void OnUpdate()
     {
-        if (agent.remainingDistance <= 0.3f)
-        {
-            if (waitTime > 0.0f) waitTime -= Time.deltaTime;
-            else
-            {
-                targetPoint = CustomTools.GetRandomPointOnMesh(15f, transform.position);
-                agent.SetDestination(targetPoint);
-               // waitTime = bossStats.GetWaitBeforeWander(isBerseker);
-            }
-        }
-
         HandleAiming();
     }
 

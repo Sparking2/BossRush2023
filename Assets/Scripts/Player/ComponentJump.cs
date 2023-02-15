@@ -7,7 +7,7 @@ namespace Player
     {
         private ComponentInput _input;
         private CharacterController _characterController;
-        private bool _groundedPlayer;
+        public bool _groundedPlayer;
         private bool _jumpPressed;
         private Vector3 _playerVelocity;
         [SerializeField]

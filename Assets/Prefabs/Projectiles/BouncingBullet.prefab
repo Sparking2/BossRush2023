@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 150
   maxLife: 3
-  maxBonceCount: 10
+  maxBonceCount: 3
   hitPrefab: {fileID: 5575681630635135047, guid: 999917e1afa6d9042a28b7440b2ebf2a, type: 3}
 --- !u!135 &6013587082875765898
 SphereCollider:

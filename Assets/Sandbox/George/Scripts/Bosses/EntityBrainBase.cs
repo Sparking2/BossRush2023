@@ -20,12 +20,12 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     
     [HideInInspector] public Vector3 targetPoint;
-    [HideInInspector] public Transform playerTransform;
+     public Transform playerTransform;
     [HideInInspector] public Transform playerTargetTransform;
     [HideInInspector] public Vector3 playerPos;
     [HideInInspector] public WaitUntil waitUntilIsOnTarget;
 
-    private ComponentHealth componentHealth;
+    public ComponentHealth componentHealth;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Animator animator;
 
@@ -51,9 +51,9 @@ public abstract class EntityBrainBase : MonoBehaviour
     private void Start()
     {
         targetPoint = playerTransform.position;
-        originalAcceleration = agent.acceleration;
+        if(agent) originalAcceleration = agent.acceleration;
         canDoAction = true;
-        SetBaseAgentSettings();
+        if (agent) SetBaseAgentSettings();
         if (componentHealth) componentHealth.SetHealth(maxHealth, this);
 
 
@@ -92,12 +92,12 @@ public abstract class EntityBrainBase : MonoBehaviour
         componentHealth.SetVulnerability(false);
     }
  
-    public IEnumerator MoveToRandomPoint()
+    public virtual IEnumerator MoveToRandomPoint()
     {
         state = EntityState.moving;
         targetPoint = CustomTools.GetRandomPointOnMesh(15f,Vector3.zero);
         if (hasMovingAnimation) animator.SetBool("isMoving", true);
-        agent.SetDestination(targetPoint);
+        if(agent) agent.SetDestination(targetPoint);
         yield return waitUntilIsOnTarget;
         animator.SetBool("isMoving", false);
         OnActionFinished();
@@ -114,7 +114,7 @@ public abstract class EntityBrainBase : MonoBehaviour
         isBerseker = true;
         StopAllCoroutines();
         CancelInvoke("OnRestingEnd");
-        agent.SetDestination(transform.position);
+        if (agent) agent.SetDestination(transform.position);
         state = EntityState.idle;
         componentHealth.SetVulnerability(true);
 
@@ -148,7 +148,7 @@ public abstract class EntityBrainBase : MonoBehaviour
     {
         state = EntityState.dead;
         CancelInvoke("OnRestingEnd");
-        agent.SetDestination(transform.position);
+        if (agent) agent.SetDestination(transform.position);
         StopAllCoroutines();
         StartCoroutine(DeathAnimation());
     }

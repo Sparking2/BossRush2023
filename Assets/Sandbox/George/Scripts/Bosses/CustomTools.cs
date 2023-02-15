@@ -9,7 +9,7 @@ public static class CustomTools
         Vector3 randomPosition = Random.insideUnitSphere * _wanderRadius;
         randomPosition += initialPosition;
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomPosition, out hit, _wanderRadius, 1);
+        NavMesh.SamplePosition(randomPosition, out hit, _wanderRadius, -1);
         return hit.position;
     }
 }

@@ -1,0 +1,271 @@
+fileFormatVersion: 2
+guid: ba0a28457c0355b479c7343cc0898668
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: SpiderBoss(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Empty
+      parentName: SpiderBoss(Clone)
+      position: {x: 2.3044536, y: 0.8359439, z: -4.004208}
+      rotation: {x: 0.00000009974802, y: -0.000000099748036, z: -0.7071068, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Empty.001
+      parentName: SpiderBoss(Clone)
+      position: {x: 0.10694223, y: 0.7780656, z: -1.5291396}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 54.59515, y: 54.59515, z: 54.59515}
+    - name: Sphere.004
+      parentName: SpiderBoss(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Armature
+      parentName: SpiderBoss(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Root
+      parentName: Armature
+      position: {x: 1.123333e-18, y: -0.000059041977, z: -0.000059041977}
+      rotation: {x: 1, y: -0, z: 0.00000019470716, w: 0}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: Base
+      parentName: Root
+      position: {x: 0.0000000023664424, y: -0.00005183458, z: -0.0060769264}
+      rotation: {x: -0.7071068, y: 0.000000008432196, z: -0.00000005338506, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.001.L
+      parentName: Base
+      position: {x: -0.008820926, y: 0.002215321, z: 0.008178217}
+      rotation: {x: 0.24344134, y: -0.14873876, z: 0.5764641, w: 0.76570374}
+      scale: {x: 1.0000001, y: 0.9999999, z: 0.9999997}
+    - name: Pata.002.L
+      parentName: Pata.001.L
+      position: {x: 3.72529e-10, y: 0.020790037, z: 0.000000003185123}
+      rotation: {x: 0.003492474, y: -0.19939199, z: 0.14959237, w: 0.968428}
+      scale: {x: 0.9999998, y: 0.9999994, z: 0.9999996}
+    - name: Pata.002.L_end
+      parentName: Pata.002.L
+      position: {x: -0, y: 0.020783097, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.001.R
+      parentName: Base
+      position: {x: 0.008548319, y: 0.004367788, z: 0.008465677}
+      rotation: {x: 0.34525165, y: 0.03116015, z: -0.3372611, w: 0.875263}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: Pata.002.R
+      parentName: Pata.001.R
+      position: {x: -0.0000000031292438, y: 0.019555956, z: -8.9406965e-10}
+      rotation: {x: 0.6478829, y: -0.0000014933566, z: -0.5893265, w: 0.48264068}
+      scale: {x: 0.9999999, y: 0.9999997, z: 0.99999976}
+    - name: Pata.002.R_end
+      parentName: Pata.002.R
+      position: {x: -0, y: 0.020783097, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.001.L.001
+      parentName: Base
+      position: {x: -0.008412224, y: 0.0043677934, z: -0.0075932094}
+      rotation: {x: -0.21648365, y: -0.2855502, z: 0.43802714, w: 0.8244562}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.002.L.001
+      parentName: Pata.001.L.001
+      position: {x: 0.0000000017881393, y: 0.019989317, z: 8.9406965e-10}
+      rotation: {x: 0.789301, y: -0.4646096, z: 0.37185147, w: 0.15122281}
+      scale: {x: 1.0000002, y: 0.9999997, z: 0.99999994}
+    - name: Pata.002.L.001_end
+      parentName: Pata.002.L.001
+      position: {x: -0, y: 0.020783097, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.001.R.001
+      parentName: Base
+      position: {x: 0.0086844135, y: 0.004367788, z: -0.0075932085}
+      rotation: {x: -0.046275545, y: 0.122644715, z: -0.63297313, w: 0.7629953}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: Pata.002.R.001
+      parentName: Pata.001.R.001
+      position: {x: 5.9604643e-10, y: 0.019989312, z: 7.45058e-10}
+      rotation: {x: 0.136194, y: 0.854623, z: 0.06458414, w: 0.49689}
+      scale: {x: 0.9999998, y: 0.9999998, z: 1.0000005}
+    - name: Pata.002.R.001_end
+      parentName: Pata.002.R.001
+      position: {x: -0, y: 0.020783097, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Big
+      parentName: Base
+      position: {x: 2.398527e-12, y: 0.01247722, z: 1.7163462e-16}
+      rotation: {x: -0, y: 3.419487e-14, z: 6.217249e-15, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Big_end
+      parentName: Big
+      position: {x: -0, y: 0.003787527, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Big.001
+      parentName: Base
+      position: {x: 0.0000000010049208, y: 0.015760103, z: -0.01551117}
+      rotation: {x: 0.67670536, y: -0.000000741726, z: -0.00000041991078, w: 0.736254}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Big.001_end
+      parentName: Big.001
+      position: {x: -0, y: 0.009507809, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Inner
+      parentName: Base
+      position: {x: 2.398527e-12, y: 0.01247722, z: 1.7163462e-16}
+      rotation: {x: -0, y: 2.5401903e-13, z: 2.6867397e-13, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Inner_end
+      parentName: Inner
+      position: {x: -0, y: 0.0046875263, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.Ctrl.L
+      parentName: Root
+      position: {x: -0.020514617, y: 0.019821879, z: -0.000106716994}
+      rotation: {x: 0.50581896, y: 0.49411216, z: 0.49411255, w: 0.5058194}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1}
+    - name: Pata.Ctrl.L_end
+      parentName: Pata.Ctrl.L
+      position: {x: -0, y: 0.0032815447, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.Ctrl.R
+      parentName: Root
+      position: {x: 0.020514617, y: 0.019821879, z: -0.00010670101}
+      rotation: {x: 0.5058194, y: -0.49411252, z: -0.4941122, w: 0.50581896}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1}
+    - name: Pata.Ctrl.R_end
+      parentName: Pata.Ctrl.R
+      position: {x: -0, y: 0.0032815447, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.Ctrl.L.001
+      parentName: Root
+      position: {x: -0.020378524, y: -0.019780964, z: -0.00010671829}
+      rotation: {x: 0.50581896, y: 0.49411216, z: 0.49411255, w: 0.5058194}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1}
+    - name: Pata.Ctrl.L.001_end
+      parentName: Pata.Ctrl.L.001
+      position: {x: -0, y: 0.0032815447, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pata.Ctrl.R.001
+      parentName: Root
+      position: {x: 0.020650709, y: -0.019780964, z: -0.00010670231}
+      rotation: {x: 0.5058194, y: -0.49411252, z: -0.4941122, w: 0.50581896}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1}
+    - name: Pata.Ctrl.R.001_end
+      parentName: Pata.Ctrl.R.001
+      position: {x: -0, y: 0.0032815447, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

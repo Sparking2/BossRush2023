@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: Main camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: VirtualCamera
-    m_To: BossCamera
+  - m_From: Menu Virtual Camera
+    m_To: VirtualCamera
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 3
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: BossCamera
-    m_To: VirtualCamera
+  - m_From: VirtualCamera
+    m_To: Menu Virtual Camera
     m_Blend:
       m_Style: 1
       m_Time: 2

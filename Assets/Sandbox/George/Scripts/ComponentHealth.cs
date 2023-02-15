@@ -46,13 +46,12 @@ public class ComponentHealth : MonoBehaviour
         if (isInvincible) return;
         if (health <= 0)
         {
-            m_bossBrain.OnDead();
+            if(m_bossBrain) m_bossBrain.OnDead();
             return;
         }
 
         if (hitFeedback) hitFeedback.PerformHitFeedback();
         health -= _damage;
-        Debug.Log("GotHit");
 
         if(healthMaterials.Length > 0)
         {
@@ -62,9 +61,13 @@ public class ComponentHealth : MonoBehaviour
             }
         }
 
-        if(health <= bersekerTreshold)
+        if (m_bossBrain)
         {
-            m_bossBrain.EnterBersekerMode();
+            if (health <= bersekerTreshold && m_bossBrain.isBerseker == false)
+            {
+                m_bossBrain.EnterBersekerMode();
+            }
         }
+ 
     }
 }
