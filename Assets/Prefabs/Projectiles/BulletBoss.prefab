@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3602729561352583152}
   - component: {fileID: 3602729561352583156}
   - component: {fileID: 3602729561352583157}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: BulletBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be70be563e544bad9a6602fff02f1e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPrefab: {fileID: 0}
   velocity: 100
   maxLife: 1
 --- !u!135 &3602729561352583152
@@ -198,7 +199,7 @@ GameObject:
   - component: {fileID: 3602729562525354217}
   - component: {fileID: 3602729562525354220}
   - component: {fileID: 3602729562525354223}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

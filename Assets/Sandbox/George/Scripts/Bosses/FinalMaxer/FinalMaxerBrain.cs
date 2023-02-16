@@ -41,6 +41,7 @@ public class FinalMaxerBrain : EntityBrainBase
     private WaitUntil waitUntilAnimationFinished;
 
     private FinalBossAnimationCommands animationCommands;
+    [SerializeField] private GameObject laser;
     Vector3 randomPos;
     Vector3 blastWavePosition;
     Vector3 normalizedPlayerPosition;
@@ -92,7 +93,7 @@ public class FinalMaxerBrain : EntityBrainBase
         onAction = true;
         animationFinished = false;
         c_attackTimer = Random.Range(minAttackTimer, maxAttackTimer);
-        int atk = Random.Range(0, 5);
+        int atk = Random.Range(0, 4);
 
         switch (atk)
         {
@@ -125,6 +126,16 @@ public class FinalMaxerBrain : EntityBrainBase
         m_componentLookAtTarget.enabled = false;
         warnDuration = Random.Range(1.5f - 0.25f, 1.5f + 0.25f);
         animationFinished = false;
+        if (isBerseker)
+        {
+            int r = Random.Range(0, 2);
+            if (r == 1)
+            {
+                animationFinished = false;
+                animator.Play("AirLaser");
+                yield return waitUntilAnimationFinished;
+            }
+        }
         int totalJumps = Random.Range(minJumps, maxJumps);
         while(totalJumps > 0)
         {
@@ -145,11 +156,27 @@ public class FinalMaxerBrain : EntityBrainBase
         int r;
         while (totalJumps > 0)
         {
+            if (isBerseker)
+            {
+                int d = Random.Range(0, 2);
+                if (d == 1)
+                {
+                    animationFinished = false;
+                    animator.Play("AirLaser");
+                    yield return waitUntilAnimationFinished;
+                }
+            }
             totalJumps--;
             r = Random.Range(0, 2);
             yield return new WaitForSeconds(.5f);
             StartCoroutine(Jump(r == 0));
             yield return waitUntilAnimationFinished;
+            if (isBerseker)
+            {
+                animationFinished = false;
+                animator.Play("AirLaser");
+                yield return waitUntilAnimationFinished;
+            }
         }
         StartCoroutine(RestingMode());
     }
@@ -167,10 +194,12 @@ public class FinalMaxerBrain : EntityBrainBase
         animator.SetTrigger("warnEnd");
         yield return waitUntilAnimationFinished;
         animationFinished = false;
-
         if (isBerseker)
         {
             // Jump to the middle and do a laser attack multiple times;\
+            animationFinished = false;
+            animator.Play("AirLaser");
+            yield return waitUntilAnimationFinished;
             animator.Play("LaserStart");
             yield return new WaitForSeconds(laserChannelTime);
             animator.SetTrigger("LaserShot");
@@ -198,10 +227,25 @@ public class FinalMaxerBrain : EntityBrainBase
     }
     private IEnumerator AttackPatternFour()    // Jump to the player, shoots, jump, shoots, (x3) 
     {
-        int totalAttacks = 3;
+        if (isBerseker)
+        {
+            animationFinished = false;
+            animator.Play("AirLaser");
+            yield return waitUntilAnimationFinished;
+        }
+        int totalAttacks = Random.Range(3,6);
         while (totalAttacks > 0)
         {
-
+            if (isBerseker)
+            {
+                int r = Random.Range(0, 2);
+                if(r == 1)
+                {
+                    animationFinished = false;
+                    animator.Play("AirLaser");
+                    yield return waitUntilAnimationFinished;
+                }
+            }
             animationFinished = false;
             StartCoroutine(Jump(false));
             yield return waitUntilAnimationFinished;
@@ -311,6 +355,8 @@ public class FinalMaxerBrain : EntityBrainBase
     {
         airLaserShootParticles.Stop();
         airLaserLineRenderer.enabled = false;
+        LaserChaser _laser = Instantiate(laser, playerTransform.position, Quaternion.identity).GetComponent<LaserChaser>();
+        _laser.SetLaser(Random.Range(2.5f, 6.0f));
     }
 
     public void OnImpact()
@@ -353,4 +399,6 @@ public class FinalMaxerBrain : EntityBrainBase
         if (componentShield) componentShield.OnShieldDepleted();
         if (componentHealth) componentHealth.SetVulnerability(true);
     }
+
+
 }

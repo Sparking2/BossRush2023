@@ -2,36 +2,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Player;
 
 public class CameraManager : MonoBehaviour
 {
-    public CinemachineBrain _cameraBrain;
     private bool inMenu = true;
-    public CinemachineVirtualCamera _menuCamera;
-    public CinemachineVirtualCamera _playerCamera;
+    public static CameraManager Instance { get; private set; }
+    [SerializeField]
+    private CinemachineVirtualCamera _menuCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera _playerCamera;
+    [SerializeField] private CinemachineVirtualCamera[] _bossCameras;
+
+    private ComponentInput _componentInput;
+    private ComponentAnimator _componentAnimator;
+    private BossManager _bossManager;
+
+    private void Awake()
+    {
+        _bossManager = GameObject.FindGameObjectWithTag("BossManager").GetComponent<BossManager>();
+        _componentAnimator = GameObject.FindGameObjectWithTag("Player").GetComponent<ComponentAnimator>();
+        _componentInput = GameObject.Find("Player").GetComponent<ComponentInput>();
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        _componentInput.enabled = false;
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && inMenu)
         {
-            ChangeCameras();
+            ChangeMenuCamera();
         }
     }
 
-    private void ChangeCameras()
+    private void ChangeMenuCamera()
     {
-        if (inMenu)
-        {
+        _componentInput.enabled = true;
             _menuCamera.Priority = 0;
             _playerCamera.Priority = 1;
-        } else
+        inMenu = false;
+        _componentAnimator.Activate();
+        _bossManager.OnGameStart();
+    }
+    public void TransitionToBossCameras(int _camIndex)
+    {
+        _componentInput.enabled = false;
+        _playerCamera.Priority = 0;
+        _menuCamera.Priority = 0;
+        for (int i=0;i < _bossCameras.Length; i++)
         {
-            _menuCamera.Priority = 1;
-            _playerCamera.Priority = 0;
+            _bossCameras[i].Priority = 0;
         }
-        inMenu = !inMenu;
 
+        _bossCameras[_camIndex].Priority = 1;
     }
 
+    public void ReturnCameraToPlayer()
+    {
+        _componentInput.enabled = true;
+        _playerCamera.Priority = 1;
+        for (int i = 0; i < _bossCameras.Length; i++)
+        {
+            _bossCameras[i].Priority = 0;
+        }
+    }
 
 }

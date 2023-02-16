@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2111737988244305157}
   - component: {fileID: 968018639015166887}
   - component: {fileID: 2621339162167427136}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4825,7 +4825,7 @@ GameObject:
   - component: {fileID: 7238569378564964408}
   - component: {fileID: 7238569378564964409}
   - component: {fileID: 5884496528214442384}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: BoomerangBot_SuperBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5014,7 +5014,7 @@ GameObject:
   - component: {fileID: 7238569380190954959}
   - component: {fileID: 7238569380190954957}
   - component: {fileID: 7238569380190954958}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5097,7 +5097,7 @@ GameObject:
   - component: {fileID: 7238569380350725583}
   - component: {fileID: 7238569380350725581}
   - component: {fileID: 7238569380350725582}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

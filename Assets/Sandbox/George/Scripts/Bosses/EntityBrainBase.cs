@@ -34,7 +34,7 @@ public abstract class EntityBrainBase : MonoBehaviour
 
     [SerializeField] private ParticleSystem deathParticles;
     [SerializeField] private ParticleSystem deathExplotion;
-
+    private CameraControl _cameraControl;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -44,7 +44,7 @@ public abstract class EntityBrainBase : MonoBehaviour
         playerTargetTransform = playerTransform.Find("PlayerTarget").GetComponent<Transform>();
 
         waitUntilIsOnTarget = new WaitUntil(() => HandleTargetCheck(targetPoint));
-
+        _cameraControl = GetComponent<CameraControl>();
         OnAwake();
     }
 
@@ -58,10 +58,17 @@ public abstract class EntityBrainBase : MonoBehaviour
 
 
         OnStart();
-
         //PerformAction();
     }
+    public void BringCamera()
+    {
+        _cameraControl.StartBlend();
+    }
 
+    public void ReturnCameraToPlayer()
+    {
+        _cameraControl.ReturnToPlayer();
+    }
     public void SetBaseAgentSettings()
     {
         agent.speed = idleMovementSpeed;
@@ -72,17 +79,6 @@ public abstract class EntityBrainBase : MonoBehaviour
     {
         playerPos = new Vector3(playerTransform.position.x, playerTransform.position.y + 1.5f, playerTransform.position.z);
         OnUpdate();
-        //if (state != EntityState.idle) return;
-        //if (thinkTimer > 0f) thinkTimer -= Time.deltaTime;
-        //else 
-        //{
-        //    if (canDoAction) PerformAction();
-        //    else
-        //    {
-        //        StartCoroutine(MoveToRandomPoint());
-        //        thinkTimer = bossStats.GetWaitBeforeWander(isBerseker);
-        //    }
-        //} 
     }
 
     public void OnActionFinished()
@@ -112,6 +108,7 @@ public abstract class EntityBrainBase : MonoBehaviour
     {
         if (isBerseker) return;
         isBerseker = true;
+        LightManager.Instance.TurnOffTheLights(true);
         StopAllCoroutines();
         CancelInvoke("OnRestingEnd");
         if (agent) agent.SetDestination(transform.position);
@@ -142,6 +139,7 @@ public abstract class EntityBrainBase : MonoBehaviour
     {
         berserkerBurstParticles.Play();
         berserkerChannelParticles.Stop();
+        LightManager.Instance.TurnOnTheLights(true);
     }
 
     public void OnDead()
@@ -153,14 +151,20 @@ public abstract class EntityBrainBase : MonoBehaviour
         StartCoroutine(DeathAnimation());
     }
 
+
+
     private IEnumerator DeathAnimation()
     {
+        LightManager.Instance.TurnOffTheLights(true);
         animator.Play("Death");
         deathParticles.Play();
         yield return new WaitForSeconds(3.5f);
         deathExplotion.Play();
         yield return new WaitForSeconds(.45f);
         gameObject.SetActive(false);
+        _cameraControl.ReturnToPlayer();
+        BossManager.Instance.OnBossKilled();
+        LightManager.Instance.TurnOnTheLights(true);
     }
 
     #region Abstracts methods

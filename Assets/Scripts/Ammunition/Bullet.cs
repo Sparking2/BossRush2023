@@ -47,8 +47,7 @@ namespace Ammunition
         {
 
             if ( impactedObject.gameObject.TryGetComponent(out ComponentHealth healthComponent) )
-            {
-     
+            {    
                 healthComponent.ReduceHealth(WeaponInfo.normalBulletDamage);
             }
             if (hitPrefab) Instantiate(hitPrefab, transform.position, Quaternion.identity);

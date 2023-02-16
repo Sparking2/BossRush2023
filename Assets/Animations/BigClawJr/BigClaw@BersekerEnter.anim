@@ -3154,6 +3154,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0
+    functionName: StartBlend
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.083333336
     functionName: PlayBerserkerChannelVFX
     data: 
@@ -3170,6 +3177,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.9166667
     functionName: PlayBersekerBurstVFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.8333334
+    functionName: ReturnToPlayer
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
