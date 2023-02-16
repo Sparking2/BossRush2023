@@ -71,5 +71,14 @@ public class FinalBossAnimationCommands : MonoBehaviour
     {
         m_brain.PerformAction();
     }
+    
+    public void CameraStart()
+    {
+        m_brain.BringCamera();
+    }
 
+    public void CameraEnd()
+    {
+        m_brain.ReturnCameraToPlayer();
+    }
 }

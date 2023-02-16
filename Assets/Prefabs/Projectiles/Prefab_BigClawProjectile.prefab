@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5916591098105524459}
   - component: {fileID: 5916591098105524437}
   - component: {fileID: 2812065172686709652}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Prefab_BigClawProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be70be563e544bad9a6602fff02f1e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPrefab: {fileID: 0}
   velocity: 15
   maxLife: 5
 --- !u!135 &5916591098105524459
@@ -199,7 +200,7 @@ GameObject:
   - component: {fileID: 5916591098829659270}
   - component: {fileID: 5916591098829659271}
   - component: {fileID: 5916591098829659268}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Mesh_BigClawProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
