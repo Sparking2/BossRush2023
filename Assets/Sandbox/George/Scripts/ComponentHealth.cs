@@ -1,5 +1,6 @@
 using Player;
 using UnityEngine;
+using UserInterface;
 
 public class ComponentHealth : MonoBehaviour
 {
@@ -67,6 +68,9 @@ public class ComponentHealth : MonoBehaviour
                     _componentInput.enabled = false;
                     gameObject.SetActive(false);
                 }
+                var messages = FindObjectOfType<MainMessagesUI>();
+                if ( messages )
+                    messages.DisplayLose();
             }
             return;
         }
