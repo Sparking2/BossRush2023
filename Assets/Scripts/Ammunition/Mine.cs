@@ -55,9 +55,10 @@ namespace Ammunition
             _rigidbody.velocity = direction * velocity;
         }
 
-        private void OnCollisionEnter( Collision collision ) => OnImpact(collision);
+        private void OnCollisionEnter( Collision collision ) => OnImpact(collision.gameObject);
 
-        public override void OnImpact( Collision impactedObject )
+
+        public override void OnImpact( GameObject impactedObject )
         {
             _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             _currentMineState = MineState.Armed;

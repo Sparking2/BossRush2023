@@ -341,11 +341,13 @@ public class FinalMaxerBrain : EntityBrainBase
 
     public void ChargeAirLaser()
     {
+        LightManager.Instance.TurnOnTheLights(true);
         airLaserChargeParticles.Play();
     }
 
     public void ShootAirLaser()
     {
+        LightManager.Instance.TurnOffTheLights(true);
         airLaserChargeParticles.Stop();
         airLaserShootParticles.Play();
         airLaserLineRenderer.enabled = true;

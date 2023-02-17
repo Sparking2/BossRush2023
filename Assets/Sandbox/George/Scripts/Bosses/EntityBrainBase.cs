@@ -142,7 +142,7 @@ public abstract class EntityBrainBase : MonoBehaviour
         LightManager.Instance.TurnOnTheLights(true);
     }
 
-    public void OnDead()
+    public virtual void OnDead()
     {
         state = EntityState.dead;
         CancelInvoke("OnRestingEnd");

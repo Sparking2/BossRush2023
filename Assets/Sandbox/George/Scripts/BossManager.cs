@@ -15,14 +15,15 @@ public class BossManager : MonoBehaviour
 
     public void OnGameStart()
     {
-        bosses[currentBoss].SetActive(true);
+        //bosses[currentBoss].SetActive(true);
+        DropsSpawner.Instance.SpawnDrop();
     }
     public void OnBossKilled()
     {
         // Spawn healings
         // Delayed next spawn
         currentBoss++;
-        if(currentBoss < bosses.Length - 1)
+        if(currentBoss < bosses.Length)
         {
             Invoke("SpawnNewBoss", 3.5f);
         } else

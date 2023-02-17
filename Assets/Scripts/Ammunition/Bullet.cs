@@ -33,25 +33,15 @@ namespace Ammunition
             }
         }
 
-        private void OnCollisionEnter( Collision other ) => OnImpact(other);
+        private void OnCollisionEnter( Collision other ) => OnImpact(other.gameObject);
 
+        private void OnTriggerEnter(Collider other) => OnImpact(other.gameObject);
         public override void Fire( Vector3 direction )
         {
             _trailRenderer.Clear();
             _trailRenderer.emitting = true;
             _trailRenderer.enabled = true;
             _rigidbody.velocity = direction * velocity;
-        }
-
-        public override void OnImpact( Collision impactedObject )
-        {
-
-            if ( impactedObject.gameObject.TryGetComponent(out ComponentHealth healthComponent) )
-            {    
-                healthComponent.ReduceHealth(WeaponInfo.normalBulletDamage);
-            }
-            if (hitPrefab) Instantiate(hitPrefab, transform.position, Quaternion.identity);
-            Reset();
         }
 
         public override void Reset()
@@ -62,6 +52,19 @@ namespace Ammunition
             _currentLife = 0.0f;
             _rigidbody.velocity = Vector3.zero;
             ResetEvent?.Invoke();
+        }
+
+
+
+
+        public override void OnImpact(GameObject impactedGameObject)
+        {
+            if (impactedGameObject.TryGetComponent(out ComponentHealth healthComponent))
+            {
+                healthComponent.ReduceHealth(WeaponInfo.normalBulletDamage);
+            }
+            if (hitPrefab) Instantiate(hitPrefab, transform.position, Quaternion.identity);
+            Reset();
         }
     }
 }
