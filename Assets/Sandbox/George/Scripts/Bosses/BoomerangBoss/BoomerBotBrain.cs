@@ -198,6 +198,15 @@ public class BoomerBotBrain : EntityBrainBase
     {
         base.EnterBersekerMode();
         SetWeaponStats(minShootingCooldown/2, maxShootingCooldown/2, bossProjectilePrefab);
+    }
 
+    public override void OnDead()
+    {
+        base.OnDead();
+        boomerang.gameObject.SetActive(false);
+        foreach (ComponentBossShooters _component in componentBosses)
+        {
+            _component.SetCanShoot(false);
+        }
     }
 }

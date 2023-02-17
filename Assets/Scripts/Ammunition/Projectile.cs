@@ -9,7 +9,7 @@ namespace Ammunition
 
         public abstract void Fire( Vector3 direction );
 
-        public abstract void OnImpact( Collision impactedObject );
+        public abstract void OnImpact(GameObject impactedGameObject);
 
         public abstract void Reset();
     }

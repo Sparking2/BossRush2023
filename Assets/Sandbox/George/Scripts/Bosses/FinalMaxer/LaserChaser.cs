@@ -39,6 +39,7 @@ public class LaserChaser : MonoBehaviour
         warnParticles.Stop();
         laserParticles.Play();
         laser.SetActive(true);
+        Invoke("StopLaser", 5.5f);
     }
 
     public void StopLaser()
