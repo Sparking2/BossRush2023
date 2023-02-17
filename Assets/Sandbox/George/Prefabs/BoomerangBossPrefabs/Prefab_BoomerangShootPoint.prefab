@@ -4823,6 +4823,7 @@ GameObject:
   - component: {fileID: 1333677838641380103}
   - component: {fileID: 1333677838641380102}
   - component: {fileID: 1333677838641380097}
+  - component: {fileID: 5262765939913188074}
   m_Layer: 0
   m_Name: Prefab_BoomerangShootPoint
   m_TagString: Untagged
@@ -4862,6 +4863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunActive: 0
   isBerseker: 0
+  shootDelay: 0.5
   projectilePrefab: 0
   specialProjectilePrefab: 0
 --- !u!114 &1333677838641380097
@@ -4889,6 +4891,21 @@ MonoBehaviour:
   superLaserChannelParticles: {fileID: 5100425148416278834}
   superShootLaserParticles: {fileID: 9166879193664971272}
   superShootDecal: {fileID: 3532754049332457896}
+--- !u!114 &5262765939913188074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333677838641380100}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06bf15ba85f9f5f4f814e4bea4521626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &1333677838680155311
 GameObject:
   m_ObjectHideFlags: 0

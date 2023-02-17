@@ -18,7 +18,7 @@ public class BossManager : MonoBehaviour
     {
         bosses[currentBoss].SetActive(true);
         DropsSpawner.Instance.SpawnDrop();
-        PlusMusic_DJ.Instance.PlayArrangement(new TransitionInfo(PlusMusic_DJ.PMTags.low_backing,true));
+       // PlusMusic_DJ.Instance.PlayArrangement(new TransitionInfo(PlusMusic_DJ.PMTags.low_backing,true));
     }
     public void OnBossKilled()
     {
@@ -38,9 +38,9 @@ public class BossManager : MonoBehaviour
     private void SpawnNewBoss()
     {
         bosses[currentBoss].SetActive(true);
-        if ( currentBoss == 1 )
-            PlusMusic_DJ.Instance.PlayArrangement(new TransitionInfo(PlusMusic_DJ.PMTags.backing_track,true));
-        if(currentBoss == 2)        
-            PlusMusic_DJ.Instance.PlayArrangement(new TransitionInfo(PlusMusic_DJ.PMTags.high_backing,true));
+        //if ( currentBoss == 1 )
+        //    PlusMusic_DJ.Instance.PlayArrangement(new TransitionInfo(PlusMusic_DJ.PMTags.backing_track,true));
+        //if(currentBoss == 2)        
+        //    PlusMusic_DJ.Instance.PlayArrangement(new TransitionInfo(PlusMusic_DJ.PMTags.high_backing,true));
     }
 }

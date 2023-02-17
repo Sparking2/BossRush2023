@@ -53,7 +53,7 @@ namespace UserInterface
                     fireModeIcon.sprite = fireModeSpriteArray[1];
                     break;
                 case FireMode.Wave:
-                    fireModeIcon.sprite = null;
+                    fireModeIcon.sprite = fireModeSpriteArray[3];
                     break;
                 case FireMode.Auto:
                     fireModeIcon.sprite = fireModeSpriteArray[2];

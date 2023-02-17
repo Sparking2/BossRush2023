@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6380359154135194477}
   - component: {fileID: 6380359154135194479}
   - component: {fileID: 6380359154135194476}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: VFX_WaveWarn _1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4881,7 +4881,7 @@ GameObject:
   - component: {fileID: 6380359154159406351}
   - component: {fileID: 6380359154159406349}
   - component: {fileID: 6380359154159406348}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Offparticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9751,7 +9751,7 @@ GameObject:
   - component: {fileID: 6380359154164426000}
   - component: {fileID: 6380359154164426002}
   - component: {fileID: 6380359154164426003}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: VFX_Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14562,7 +14562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6380359154253447464}
   - component: {fileID: 6380359154253447465}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: LaserLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14695,7 +14695,7 @@ GameObject:
   - component: {fileID: 6380359154286172338}
   - component: {fileID: 6380359154286172340}
   - component: {fileID: 6380359154286172341}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: VFX_LaserAtk_On
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19520,7 +19520,7 @@ GameObject:
   - component: {fileID: 6380359154534753568}
   - component: {fileID: 6380359154534753570}
   - component: {fileID: 6380359154534753571}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: VFX_LaserChannelWave_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24332,7 +24332,7 @@ GameObject:
   - component: {fileID: 6380359154563192918}
   - component: {fileID: 6380359154563192916}
   - component: {fileID: 6380359154563192919}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: VFX_CircleWarn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29146,7 +29146,7 @@ GameObject:
   - component: {fileID: 6380359154722311239}
   - component: {fileID: 6380359154722311609}
   - component: {fileID: 6380359154722311238}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33957,7 +33957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6380359154723609273}
   - component: {fileID: 6380359154723609272}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: LaserLine_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34089,7 +34089,7 @@ GameObject:
   - component: {fileID: 6380359154923059717}
   - component: {fileID: 6380359154923059719}
   - component: {fileID: 6380359154923059716}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: VFX_LaserChannelWave_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38902,7 +38902,8 @@ GameObject:
   - component: {fileID: 6380359155426823872}
   - component: {fileID: 6380359155426823873}
   - component: {fileID: 6380359155426823886}
-  m_Layer: 8
+  - component: {fileID: 8812572433621095861}
+  m_Layer: 10
   m_Name: LaserPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38936,7 +38937,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6380359155426823887}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 1.24
   m_Height: 12.752066
   m_Direction: 1
@@ -38973,3 +38974,17 @@ MonoBehaviour:
   laser: {fileID: 6380359154253447478}
   afterParticles: {fileID: 6380359154159406349}
   _collider: {fileID: 6380359155426823872}
+--- !u!114 &8812572433621095861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380359155426823887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19506e4f39a6be2468b4cd5fcb55a0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  destroyOnTouch: 0

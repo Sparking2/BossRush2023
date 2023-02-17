@@ -23,6 +23,14 @@ public class ComponentHealth : MonoBehaviour
         hitFeedback = GetComponentInChildren<ComponentHitFeedback>();
     }
 
+    private void Start()
+    {
+        if (maxHealth == 0)
+        {
+            maxHealth = health;
+        }
+    }
+
     public void SetVulnerability(bool _vulnerable)
     {
         isInvincible = _vulnerable;
@@ -65,6 +73,7 @@ public class ComponentHealth : MonoBehaviour
 
         if (hitFeedback) hitFeedback.PerformHitFeedback();
         health -= _damage;
+        if (_componentInput) HealthUI.Instance.UpdateHealthBar(GetHealthValue());
         Debug.Log("Getting hit");
         if(healthMaterials.Length > 0)
         {
@@ -83,12 +92,10 @@ public class ComponentHealth : MonoBehaviour
         }
  
     }
-
-    private void Update()
+    
+    public float GetHealthValue()
     {
-        if (Input.GetKeyDown(KeyCode.L) && _componentInput)
-        {
-            ReduceHealth(10000);
-        }
+
+        return health / maxHealth;
     }
 }
