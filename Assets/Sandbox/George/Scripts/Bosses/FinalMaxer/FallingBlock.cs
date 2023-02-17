@@ -13,8 +13,10 @@ public class FallingBlock : MonoBehaviour
     [SerializeField] private ParticleSystem impactParticles;
 
     private WaitForSeconds fallDelay;
+    private Collider collider;
     private void Awake()
     {
+        collider = GetComponent<Collider>();
         warnDelay = Random.Range(warnDelay - 0.25f, warnDelay + 0.75f);
         fallDelay = new WaitForSeconds(warnDelay);
     }
@@ -39,7 +41,10 @@ public class FallingBlock : MonoBehaviour
             fallingObject.transform.position = Vector3.MoveTowards(fallingObject.transform.position, transform.position, fallingSpeed * Time.deltaTime);
             yield return null;
         }
+        collider.enabled = true;
         fallingObject.SetActive(false);
         impactParticles.Play();
+        yield return new WaitForSeconds(.1f);
+        collider.enabled = false;
     }
 }

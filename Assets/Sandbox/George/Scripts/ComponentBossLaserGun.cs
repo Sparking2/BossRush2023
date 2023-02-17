@@ -17,10 +17,13 @@ public class ComponentBossLaserGun : MonoBehaviour
     [SerializeField] private ParticleSystem superShootLaserParticles;
     [SerializeField] private ParticleSystem superShootDecal;
 
+    private ComponentDamageOnRay componentDamage;
+
     private void Awake()
     {
         lineRenderer.enabled = false;
         superLaserRenderer.enabled = false;
+        componentDamage = GetComponent<ComponentDamageOnRay>();
     }
 
     public void SetLaser(bool _active)
@@ -39,6 +42,7 @@ public class ComponentBossLaserGun : MonoBehaviour
             shootDecal.Stop();
         }
 
+        componentDamage.enabled = _active;
         lineRenderer.enabled = isActive;
     }
 
@@ -72,7 +76,7 @@ public class ComponentBossLaserGun : MonoBehaviour
             superShootDecal.Stop();
         }
 
-        
+        componentDamage.enabled = _active;
         superLaserRenderer.enabled = isActive;
     }
 
@@ -97,6 +101,7 @@ public class ComponentBossLaserGun : MonoBehaviour
 
     private void HandleLaserShoot()
     {
+        componentDamage.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
         dangerLineRenderer.SetPosition(0, transform.position);
         superLaserRenderer.SetPosition(0, transform.position);

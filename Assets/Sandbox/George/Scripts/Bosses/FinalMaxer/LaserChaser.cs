@@ -29,6 +29,7 @@ public class LaserChaser : MonoBehaviour
     public void ActivateLaser()
     {
         gameObject.SetActive(true);
+
         warnParticles.Play();
         Invoke("PerformLaser", 4.5f);
         moveToTarget.canMove = true;
@@ -38,6 +39,7 @@ public class LaserChaser : MonoBehaviour
     {
         warnParticles.Stop();
         laserParticles.Play();
+        _collider.enabled = true;
         laser.SetActive(true);
         Invoke("StopLaser", 5.5f);
     }

@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7531494227302462981}
   - component: {fileID: 7531494227302462982}
-  m_Layer: 0
+  - component: {fileID: 1490321501082476759}
+  - component: {fileID: 8295281572883707048}
+  m_Layer: 10
   m_Name: JumpExplotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,8 +47,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c202fde6e53993343b28e9750d2e5079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warnDuration: 2
   explotionParticles: {fileID: 7531494227385591758}
+--- !u!135 &1490321501082476759
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7531494227302462980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.45
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8295281572883707048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7531494227302462980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19506e4f39a6be2468b4cd5fcb55a0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 15
+  destroyOnTouch: 0
 --- !u!1 &7531494227385591747
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +86,7 @@ GameObject:
   - component: {fileID: 7531494227385591756}
   - component: {fileID: 7531494227385591758}
   - component: {fileID: 7531494227385591757}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Explotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4926,7 +4954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7531494227912802593}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: VFX_Explotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4961,7 +4989,7 @@ GameObject:
   - component: {fileID: 7531494228459876363}
   - component: {fileID: 7531494228459876405}
   - component: {fileID: 7531494228459876404}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WaveRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
